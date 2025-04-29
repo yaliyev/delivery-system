@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -31,17 +32,18 @@ public class SecurityConfig {
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
                         )
+
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                )
+                .exceptionHandling(exceptions -> exceptions
+
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 )
                 .csrf(csrf -> csrf.disable());
+
         return http.build();
     }
 
-
-
-
-
-
-    // You'll need to implement JWT conversion
     private Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter() {
         JwtAuthConverter converter = new JwtAuthConverter(new RealmRoleConverter());
         // Add any additional configuration here
