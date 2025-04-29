@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msuser.infrastructure.dto;
+package de.yagub.deliverysystem.msuser.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

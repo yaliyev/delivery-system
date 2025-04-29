@@ -1,6 +1,6 @@
-package de.yagub.deliverysystem.msuser.infrastructure.config;
+package de.yagub.deliverysystem.msuser.config;
 
-import de.yagub.deliverysystem.msuser.domain.service.UserService;
+import de.yagub.deliverysystem.msuser.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,6 @@ public class SecurityBeansConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(

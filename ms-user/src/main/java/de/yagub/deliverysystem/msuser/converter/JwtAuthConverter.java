@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msuser.infrastructure.security.converter;
+package de.yagub.deliverysystem.msuser.converter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -23,7 +23,6 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     }
 
     private String getPrincipalClaimName(Jwt jwt) {
-        // Use preferred_username if available, fallback to subject
         return jwt.hasClaim("preferred_username") ?
                 jwt.getClaimAsString("preferred_username") :
                 jwt.getSubject();

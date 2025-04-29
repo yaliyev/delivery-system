@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msuser.domain.model;
+package de.yagub.deliverysystem.msuser.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

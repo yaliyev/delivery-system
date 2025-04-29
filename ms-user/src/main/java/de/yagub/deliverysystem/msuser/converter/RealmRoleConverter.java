@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msuser.infrastructure.security.converter;
+package de.yagub.deliverysystem.msuser.converter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;

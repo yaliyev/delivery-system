@@ -1,7 +1,8 @@
-package de.yagub.deliverysystem.msuser.infrastructure.persistence;
+package de.yagub.deliverysystem.msuser.repository;
 
-import de.yagub.deliverysystem.msuser.domain.model.User;
-import de.yagub.deliverysystem.msuser.domain.repository.UserRepository;
+import de.yagub.deliverysystem.msuser.model.User;
+import de.yagub.deliverysystem.msuser.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -24,11 +26,6 @@ public class UserRepositoryImpl implements UserRepository {
                     rs.getString("password_hash"),
                     rs.getBoolean("enabled")
             );
-
-
-    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public User save(User user) {

@@ -1,0 +1,74 @@
+package de.yagub.deliverysystem.msuser.service;
+
+
+
+import de.yagub.deliverysystem.msuser.dto.mapper.UserMapper;
+import de.yagub.deliverysystem.msuser.dto.request.LoginRequest;
+import de.yagub.deliverysystem.msuser.dto.request.RegistrationRequest;
+import de.yagub.deliverysystem.msuser.dto.response.LoginResponse;
+import de.yagub.deliverysystem.msuser.dto.response.UserResponse;
+import de.yagub.deliverysystem.msuser.exception.customexceptions.InvalidUserCredentialsException;
+import de.yagub.deliverysystem.msuser.exception.customexceptions.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.model.User;
+import de.yagub.deliverysystem.msuser.repository.UserRepository;
+import de.yagub.deliverysystem.msuser.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserResponse register(RegistrationRequest request) {
+        if (userRepository.existsByUsername(request.username())) {
+            throw new UsernameAlreadyExistsException(request.username());
+        }
+
+        String passwordHash = passwordEncoder.encode(request.password());
+        var user = User.builder()
+                .username(request.username())
+                .passwordHash(passwordHash)
+                .enabled(true)
+                .build();
+
+        return UserMapper.toUserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+
+        var user = userRepository.findByUsername(loginRequest.username())
+                .orElseThrow(() -> new InvalidUserCredentialsException("Invalid username and password"));
+
+        if (!passwordEncoder.matches(loginRequest.password(), user.getPasswordHash())) {
+            throw new InvalidUserCredentialsException(("Invalid username and password"));
+        }
+
+        return UserMapper.toLoginResponse(user);
+
+    }
+
+    @Override
+    public boolean usernameExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .map(user -> org.springframework.security.core.userdetails.User.builder()
+                        .username(user.getUsername())
+                        .password(user.getPasswordHash())
+                        .disabled(!user.isEnabled())
+                        .build())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+}
