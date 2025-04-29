@@ -1,6 +1,7 @@
 package de.yagub.deliverysystem.msuser.infrastructure.service;
 
 
+
 import de.yagub.deliverysystem.msuser.domain.model.User;
 import de.yagub.deliverysystem.msuser.domain.repository.UserRepository;
 import de.yagub.deliverysystem.msuser.domain.service.UserService;
@@ -32,7 +33,13 @@ public class UserServiceImpl implements UserService {
         }
 
         String passwordHash = passwordEncoder.encode(plainPassword);
-        return userRepository.save(new User(null, username, passwordHash, true));
+        var user = User.builder()
+                .username(username)
+                .passwordHash(passwordHash)
+                .enabled(true)
+                .build();
+
+        return userRepository.save(user);
     }
 
     @Override

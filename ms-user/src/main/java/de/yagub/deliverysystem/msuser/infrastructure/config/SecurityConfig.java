@@ -3,6 +3,7 @@ package de.yagub.deliverysystem.msuser.infrastructure.config;
 import de.yagub.deliverysystem.msuser.domain.service.UserService;
 import de.yagub.deliverysystem.msuser.infrastructure.security.converter.JwtAuthConverter;
 import de.yagub.deliverysystem.msuser.infrastructure.security.converter.RealmRoleConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -19,14 +20,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserService userService;
 
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
 
 
 
