@@ -8,16 +8,18 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.UUID;
 
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
         String errorMessage = authException.getMessage();
-        String errorCode = "invalid_token";
+        String errorCode = "INVALID_TOKEN";
 
         if (authException instanceof OAuth2AuthenticationException oauthEx) {
             if (oauthEx.getError() != null) {
@@ -26,16 +28,19 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
             if (oauthEx.getCause() instanceof JwtValidationException jwtEx) {
                 if (jwtEx.getMessage().contains("JWT expired")) {
-                    errorCode = "expired_token";
+                    errorCode = "EXPIRED_TOKEN";
                     errorMessage = "The access token has expired";
                 }
             }
         }
-
         response.getWriter().write(String.format(
-                "{\"error\":\"%s\", \"message\":\"%s\"}",
+                "{\"errorCode\":\"%s\", \"message\":\"%s\", \"errorId\":\"%s\", " +
+                        "\"path\":\"%s\", \"timestamp\":\"%s\"}",
                 errorCode,
-                errorMessage
+                errorMessage,
+                UUID.randomUUID(),
+                request.getRequestURI(),
+                Instant.now()
         ));
     }
 }

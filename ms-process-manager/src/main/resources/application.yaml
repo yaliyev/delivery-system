@@ -1,0 +1,72 @@
+server:
+  port: 5051
+
+user:
+  service:
+    url: http://localhost:5050
+    connect-timeout: 2000ms
+    read-timeout: 5000ms
+
+spring:
+  application:
+    name: ms-process-manager
+  cloud:
+    circuitbreaker:
+      resilience4j:
+        instances:
+          user-service-register:
+            failureRateThreshold: 50
+            waitDurationInOpenState: 5000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            permittedNumberOfCallsInHalfOpenState: 3
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            registerHealthIndicator: true
+          user-service-login:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 5000
+        loggerLevel: basic
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,circuitbreakers
+  endpoint:
+    health:
+      show-details: always
+      group:
+        custom:
+          include: circuitBreakers # Note the exact capitalization
+    circuitbreakers:
+      enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
+    resilience4j:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    register-health-indicator: true # Global registration
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: WARN
+    org.springframework.cloud.openfeign: DEBUG
+    de.yagub.deliverysystem: DEBUG
+  file:
+    name: logs/ms-process-manager.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

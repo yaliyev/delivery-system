@@ -1,4 +1,5 @@
-package de.yagub.deliverysystem.msuser.exception;
+package de.yagub.deliverysystem.msprocessmanager.exception;
+
 
 public enum ErrorCode {
     VALIDATION_FAILED,
@@ -11,6 +12,7 @@ public enum ErrorCode {
     USER_DISABLED,
 
     USERNAME_ALREADY_EXISTS,
+    SERVICE_UNAVAILABLE,
     INVALID_TOKEN,
     EXPIRED_TOKEN
 }
