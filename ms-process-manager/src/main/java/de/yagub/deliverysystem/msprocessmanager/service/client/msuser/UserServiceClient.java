@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import de.yagub.deliverysystem.msprocessmanager.model.msuser.RegistrationRequest;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(
         name = "user-service",
@@ -24,5 +25,5 @@ public interface UserServiceClient {
     UserResponse register(@RequestBody RegistrationRequest request);
 
     @PostMapping("/api/users/login")
-    LoginResponse login(@RequestBody LoginRequest request);
+    LoginResponse login(@RequestBody LoginRequest request,@RequestHeader("Authorization") String authHeader);
 }

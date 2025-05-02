@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse loginUser(@RequestBody LoginRequest request) {
+    public LoginResponse loginUser(@RequestBody LoginRequest request,@RequestHeader("Authorization") String authHeader) {
         return userService.login(request);
     }
 }

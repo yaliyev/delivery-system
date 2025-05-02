@@ -32,11 +32,11 @@ public class UserOrchestrationService {
                 );
     }
 
-    public LoginResponse loginUser(LoginRequest request) {
+    public LoginResponse loginUser(LoginRequest request,String authHeader) {
         return circuitBreakerFactory.create("user-service-login")
                 .run(() -> {
                     log.debug("Attempting login for {}", request.username());
-                    LoginResponse response = userServiceClient.login(request);
+                    LoginResponse response = userServiceClient.login(request,authHeader);
                     log.info("User logged in: {}", request.username());
                     return response;
                 }
