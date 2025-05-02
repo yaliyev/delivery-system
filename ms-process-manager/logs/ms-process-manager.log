@@ -47,3 +47,87 @@
 2025-05-02 03:53:37 [pool-2-thread-1] WARN  d.y.d.m.config.CustomErrorDecoder - Received error response from service: ErrorResponse[errorCode=INVALID_TOKEN, message=Full authentication is required to access this resource, errorId=95696d51-3f24-4d9c-8891-d18de3dd2f84, path=/api/users/login, timestamp=2025-05-02T01:53:37.551678300Z]
 2025-05-02 03:56:40 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-05-02 03:56:41 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-02 04:05:48 [main] INFO  d.y.d.m.MsProcessManagerApplication - Starting MsProcessManagerApplication using Java 17.0.10 with PID 15508 (C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main started by user in C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager)
+2025-05-02 04:05:48 [main] DEBUG d.y.d.m.MsProcessManagerApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-05-02 04:05:48 [main] INFO  d.y.d.m.MsProcessManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-02 04:05:49 [main] DEBUG o.s.c.o.FeignClientsRegistrar$1 - Identified candidate component class: file [C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main\de\yagub\deliverysystem\msprocessmanager\service\client\msuser\UserServiceClient.class]
+2025-05-02 04:05:50 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=e4edc53c-d52a-3a74-bcee-46914b22b608
+2025-05-02 04:05:51 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 5051 (http)
+2025-05-02 04:05:51 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-02 04:05:51 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-02 04:05:51 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-02 04:05:51 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2314 ms
+2025-05-02 04:05:51 [main] DEBUG o.s.c.o.FeignClientFactoryBean - Creating a FeignClientFactoryBean.
+2025-05-02 04:05:52 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-05-02 04:05:53 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 5051 (http) with context path '/'
+2025-05-02 04:05:53 [main] INFO  d.y.d.m.MsProcessManagerApplication - Started MsProcessManagerApplication in 5.948 seconds (process running for 7.796)
+2025-05-02 04:06:51 [http-nio-5051-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-02 04:06:51 [pool-2-thread-1] DEBUG d.y.d.m.s.o.m.UserOrchestrationService - Attempting user registration for user3
+2025-05-02 04:06:51 [pool-2-thread-1] DEBUG o.s.c.o.support.SpringEncoder - Writing [RegistrationRequest[username=user3, password=12345]] using [org.springframework.http.converter.json.MappingJackson2HttpMessageConverter@60a01cb]
+2025-05-02 04:06:52 [pool-2-thread-1] WARN  d.y.d.m.config.CustomErrorDecoder - Received error response from service: ErrorResponse[errorCode=USERNAME_ALREADY_EXISTS, message=Username 'user3' already exists, errorId=5e830f09-4c69-43b2-ae1d-062e5409fe6c, path=/api/users/register, timestamp=2025-05-02T02:06:52.284763200Z]
+2025-05-02 04:08:09 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-02 04:08:10 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-02 04:08:21 [main] INFO  d.y.d.m.MsProcessManagerApplication - Starting MsProcessManagerApplication using Java 17.0.10 with PID 16776 (C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main started by user in C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager)
+2025-05-02 04:08:21 [main] DEBUG d.y.d.m.MsProcessManagerApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-05-02 04:08:21 [main] INFO  d.y.d.m.MsProcessManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-02 04:08:22 [main] DEBUG o.s.c.o.FeignClientsRegistrar$1 - Identified candidate component class: file [C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main\de\yagub\deliverysystem\msprocessmanager\service\client\msuser\UserServiceClient.class]
+2025-05-02 04:08:23 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=e4edc53c-d52a-3a74-bcee-46914b22b608
+2025-05-02 04:08:23 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 5051 (http)
+2025-05-02 04:08:23 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-02 04:08:23 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-02 04:08:23 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-02 04:08:23 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2442 ms
+2025-05-02 04:08:23 [main] DEBUG o.s.c.o.FeignClientFactoryBean - Creating a FeignClientFactoryBean.
+2025-05-02 04:08:25 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-05-02 04:08:25 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 5051 (http) with context path '/'
+2025-05-02 04:08:25 [main] INFO  d.y.d.m.MsProcessManagerApplication - Started MsProcessManagerApplication in 5.785 seconds (process running for 7.262)
+2025-05-02 04:08:26 [RMI TCP Connection(3)-172.31.112.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-02 04:09:05 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-02 04:09:06 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-02 04:09:16 [main] INFO  d.y.d.m.MsProcessManagerApplication - Starting MsProcessManagerApplication using Java 17.0.10 with PID 5724 (C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main started by user in C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager)
+2025-05-02 04:09:16 [main] DEBUG d.y.d.m.MsProcessManagerApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-05-02 04:09:16 [main] INFO  d.y.d.m.MsProcessManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-02 04:09:18 [main] DEBUG o.s.c.o.FeignClientsRegistrar$1 - Identified candidate component class: file [C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main\de\yagub\deliverysystem\msprocessmanager\service\client\msuser\UserServiceClient.class]
+2025-05-02 04:09:18 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=e4edc53c-d52a-3a74-bcee-46914b22b608
+2025-05-02 04:09:19 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 5051 (http)
+2025-05-02 04:09:19 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-02 04:09:19 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-02 04:09:19 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-02 04:09:19 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2546 ms
+2025-05-02 04:09:19 [main] DEBUG o.s.c.o.FeignClientFactoryBean - Creating a FeignClientFactoryBean.
+2025-05-02 04:09:22 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-05-02 04:09:22 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 5051 (http) with context path '/'
+2025-05-02 04:09:23 [main] INFO  d.y.d.m.MsProcessManagerApplication - Started MsProcessManagerApplication in 9.169 seconds (process running for 11.272)
+2025-05-02 04:09:23 [RMI TCP Connection(3)-172.31.112.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-02 04:09:36 [pool-2-thread-1] DEBUG d.y.d.m.s.o.m.UserOrchestrationService - Attempting user registration for user3
+2025-05-02 04:09:36 [pool-2-thread-1] DEBUG o.s.c.o.support.SpringEncoder - Writing [RegistrationRequest[username=user3, password=12345]] using [org.springframework.http.converter.json.MappingJackson2HttpMessageConverter@1cc41b77]
+2025-05-02 04:09:53 [http-nio-5051-exec-1] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.cloud.client.circuitbreaker.NoFallbackAvailableException: No fallback available.] with root cause
+java.util.concurrent.TimeoutException: TimeLimiter 'user-service-register' recorded a timeout exception.
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)
+	at io.github.resilience4j.timelimiter.internal.TimeLimiterImpl.lambda$decorateFutureSupplier$0(TimeLimiterImpl.java:46)
+	at io.github.resilience4j.bulkhead.internal.FixedThreadPoolBulkhead.lambda$submit$1(FixedThreadPoolBulkhead.java:142)
+	at io.github.resilience4j.core.ContextPropagator.lambda$decorateSupplier$6(ContextPropagator.java:107)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run$$$capture(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2025-05-02 04:09:53 [pool-2-thread-1] WARN  d.y.d.m.config.CustomErrorDecoder - Received error response from service: ErrorResponse[errorCode=USERNAME_ALREADY_EXISTS, message=Username 'user3' already exists, errorId=85e7260c-224c-4e09-b005-ddb5639e6773, path=/api/users/register, timestamp=2025-05-02T02:09:37.306973200Z]
+2025-05-02 04:09:53 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-02 04:09:54 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-02 04:15:23 [main] INFO  d.y.d.m.MsProcessManagerApplication - Starting MsProcessManagerApplication using Java 17.0.10 with PID 10736 (C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main started by user in C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager)
+2025-05-02 04:15:23 [main] DEBUG d.y.d.m.MsProcessManagerApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-05-02 04:15:23 [main] INFO  d.y.d.m.MsProcessManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-02 04:15:24 [main] DEBUG o.s.c.o.FeignClientsRegistrar$1 - Identified candidate component class: file [C:\Users\user\Documents\Back end Engineering Germany\deliverysystem\ms-process-manager\build\classes\java\main\de\yagub\deliverysystem\msprocessmanager\service\client\msuser\UserServiceClient.class]
+2025-05-02 04:15:25 [main] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=e4edc53c-d52a-3a74-bcee-46914b22b608
+2025-05-02 04:15:25 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 5051 (http)
+2025-05-02 04:15:25 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-02 04:15:25 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-02 04:15:25 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-02 04:15:25 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2236 ms
+2025-05-02 04:15:26 [main] DEBUG o.s.c.o.FeignClientFactoryBean - Creating a FeignClientFactoryBean.
+2025-05-02 04:15:27 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-05-02 04:15:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 5051 (http) with context path '/'
+2025-05-02 04:15:27 [main] INFO  d.y.d.m.MsProcessManagerApplication - Started MsProcessManagerApplication in 5.227 seconds (process running for 6.715)
+2025-05-02 04:15:42 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-02 04:15:43 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
