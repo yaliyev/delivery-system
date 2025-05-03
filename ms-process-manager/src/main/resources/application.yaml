@@ -3,7 +3,7 @@ server:
 
 user:
   service:
-    url: http://localhost:5050
+    url: http://localhost:5050/api/users
     connect-timeout: 2000ms
     read-timeout: 5000ms
 

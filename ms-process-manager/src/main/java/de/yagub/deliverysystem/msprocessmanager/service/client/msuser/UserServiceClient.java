@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
         url = "${user.service.url}",
         configuration = FeignConfig.class
 )
-@Component
 public interface UserServiceClient {
 
-    @PostMapping("/api/users/register")
+    @PostMapping("/register")
     UserResponse register(@RequestBody RegistrationRequest request);
 
-    @PostMapping("/api/users/login")
+    @PostMapping("/login")
     LoginResponse login(@RequestBody LoginRequest request,@RequestHeader("Authorization") String authHeader);
 }

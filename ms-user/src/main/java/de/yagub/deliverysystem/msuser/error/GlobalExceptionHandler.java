@@ -1,7 +1,7 @@
-package de.yagub.deliverysystem.msuser.exception;
+package de.yagub.deliverysystem.msuser.error;
 
-import de.yagub.deliverysystem.msuser.exception.customexceptions.InvalidUserCredentialsException;
-import de.yagub.deliverysystem.msuser.exception.customexceptions.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.error.customexceptions.InvalidUserCredentialsException;
+import de.yagub.deliverysystem.msuser.error.customexceptions.UsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
