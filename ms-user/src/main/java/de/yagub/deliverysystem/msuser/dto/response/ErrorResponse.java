@@ -1,6 +1,6 @@
 package de.yagub.deliverysystem.msuser.dto.response;
 
-import de.yagub.deliverysystem.msuser.exception.ErrorCode;
+import de.yagub.deliverysystem.msuser.error.ErrorCode;
 
 import java.time.Instant;
 import java.util.UUID;

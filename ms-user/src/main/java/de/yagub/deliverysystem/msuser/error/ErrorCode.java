@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msuser.exception;
+package de.yagub.deliverysystem.msuser.error;
 
 public enum ErrorCode {
     VALIDATION_FAILED,

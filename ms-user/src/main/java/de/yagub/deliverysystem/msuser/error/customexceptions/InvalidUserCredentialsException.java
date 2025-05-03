@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msuser.exception.customexceptions;
+package de.yagub.deliverysystem.msuser.error.customexceptions;
 
 public class InvalidUserCredentialsException extends RuntimeException {
     public InvalidUserCredentialsException(String message) {
