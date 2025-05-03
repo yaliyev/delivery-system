@@ -1,0 +1,16 @@
+package de.yagub.deliverysystem.msuser.exception;
+
+public enum ErrorCode {
+    VALIDATION_FAILED,
+    RESOURCE_NOT_FOUND,
+    UNAUTHORIZED,
+    FORBIDDEN,
+    INTERNAL_SERVER_ERROR,
+    INSUFFICIENT_BALANCE,
+    ITEM_OUT_OF_STOCK,
+    USER_DISABLED,
+
+    USERNAME_ALREADY_EXISTS,
+    INVALID_TOKEN,
+    EXPIRED_TOKEN
+}
