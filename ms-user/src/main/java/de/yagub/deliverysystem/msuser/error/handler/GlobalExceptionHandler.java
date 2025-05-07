@@ -1,14 +1,15 @@
-package de.yagub.deliverysystem.msuser.error;
+package de.yagub.deliverysystem.msuser.error.handler;
 
-import de.yagub.deliverysystem.msuser.error.customexceptions.InvalidUserCredentialsException;
-import de.yagub.deliverysystem.msuser.error.customexceptions.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.error.InvalidUserCredentialsException;
+import de.yagub.deliverysystem.msuser.error.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.error.response.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import de.yagub.deliverysystem.msuser.dto.response.ErrorResponse;
+import de.yagub.deliverysystem.msuser.error.response.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

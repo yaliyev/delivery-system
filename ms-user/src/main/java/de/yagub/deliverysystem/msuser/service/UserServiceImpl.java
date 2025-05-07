@@ -2,13 +2,13 @@ package de.yagub.deliverysystem.msuser.service;
 
 
 
-import de.yagub.deliverysystem.msuser.dto.mapper.UserMapper;
+import de.yagub.deliverysystem.msuser.mapper.UserMapper;
 import de.yagub.deliverysystem.msuser.dto.request.LoginRequest;
 import de.yagub.deliverysystem.msuser.dto.request.RegistrationRequest;
 import de.yagub.deliverysystem.msuser.dto.response.LoginResponse;
 import de.yagub.deliverysystem.msuser.dto.response.UserResponse;
-import de.yagub.deliverysystem.msuser.error.customexceptions.InvalidUserCredentialsException;
-import de.yagub.deliverysystem.msuser.error.customexceptions.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.error.InvalidUserCredentialsException;
+import de.yagub.deliverysystem.msuser.error.UsernameAlreadyExistsException;
 import de.yagub.deliverysystem.msuser.model.User;
 import de.yagub.deliverysystem.msuser.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final UserMapper userMapper;
+
     @Override
     public UserResponse register(RegistrationRequest request) {
         if (userRepository.existsByUsername(request.username())) {
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
                 .enabled(true)
                 .build();
 
-        return UserMapper.toUserResponse(userRepository.save(user));
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new InvalidUserCredentialsException(("Invalid username and password"));
         }
 
-        return UserMapper.toLoginResponse(user);
+        return userMapper.toLoginResponse(user);
 
     }
 

@@ -34,7 +34,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             }
         }
         response.getWriter().write(String.format(
-                "{\"errorCode\":\"%s\", \"message\":\"%s\", \"errorId\":\"%s\", " +
+                "{\"errorCode\":\"%s\", \"message\":\"%s\", \"uuid\":\"%s\", " +
                         "\"path\":\"%s\", \"timestamp\":\"%s\"}",
                 errorCode,
                 errorMessage,

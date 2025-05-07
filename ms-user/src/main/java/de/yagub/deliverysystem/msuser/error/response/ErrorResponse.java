@@ -1,6 +1,4 @@
-package de.yagub.deliverysystem.msuser.dto.response;
-
-import de.yagub.deliverysystem.msuser.error.ErrorCode;
+package de.yagub.deliverysystem.msuser.error.response;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -8,7 +6,7 @@ import java.util.UUID;
 public record ErrorResponse(
         ErrorCode errorCode,
         String message,
-        UUID errorId,
+        UUID uuid,
         String path,
         Instant timestamp
 ) {
