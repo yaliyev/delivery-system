@@ -1,20 +1,18 @@
 package de.yagub.deliverysystem.msprocessmanager.config;
 
-import de.yagub.deliverysystem.msprocessmanager.model.ErrorResponse;
-import feign.Response;
+import de.yagub.deliverysystem.msprocessmanager.service.client.msuser.UserServiceClient;
 import feign.codec.ErrorDecoder;
-import lombok.extern.slf4j.Slf4j;
+import feign.error.AnnotationErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.IOException;
 
 @Configuration
 public class FeignConfig {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new CustomErrorDecoder();
+        return AnnotationErrorDecoder.builderFor(UserServiceClient.class).build();
     }
 
 

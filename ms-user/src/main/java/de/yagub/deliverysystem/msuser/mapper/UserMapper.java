@@ -14,11 +14,12 @@ import de.yagub.deliverysystem.msuser.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+   // UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(target = "enabled", constant = "true")
     User toUser(RegistrationRequest request);

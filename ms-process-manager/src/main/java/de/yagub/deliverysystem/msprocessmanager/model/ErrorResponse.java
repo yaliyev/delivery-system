@@ -1,9 +1,6 @@
 package de.yagub.deliverysystem.msprocessmanager.model;
 
-import de.yagub.deliverysystem.msprocessmanager.exception.ErrorCode;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorCode;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -12,7 +9,7 @@ import java.util.UUID;
 public record ErrorResponse(
         ErrorCode errorCode,
         String message,
-        UUID errorId,
+        UUID uuid,
         String path,
         Instant timestamp
 ) {

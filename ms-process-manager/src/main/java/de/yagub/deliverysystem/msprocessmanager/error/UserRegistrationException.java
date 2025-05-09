@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msprocessmanager.exception.msuser;
+package de.yagub.deliverysystem.msprocessmanager.error;
 
 public class UserRegistrationException extends RuntimeException {
     public UserRegistrationException(String message) {

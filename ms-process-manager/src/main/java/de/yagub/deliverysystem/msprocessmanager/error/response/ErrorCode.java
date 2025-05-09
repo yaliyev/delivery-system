@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msprocessmanager.exception;
+package de.yagub.deliverysystem.msprocessmanager.error.response;
 
 
 public enum ErrorCode {
