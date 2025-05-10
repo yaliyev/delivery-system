@@ -22,9 +22,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         String errorCode = "INVALID_TOKEN";
 
         if (authException instanceof OAuth2AuthenticationException oauthEx) {
-            if (oauthEx.getError() != null) {
-                errorCode = oauthEx.getError().getErrorCode();
-            }
+//            if (oauthEx.getError() != null) {
+//                errorCode = oauthEx.getError().getErrorCode();
+//            }
 
             if (oauthEx.getCause() instanceof JwtValidationException jwtEx) {
                 if (jwtEx.getMessage().contains("JWT expired")) {

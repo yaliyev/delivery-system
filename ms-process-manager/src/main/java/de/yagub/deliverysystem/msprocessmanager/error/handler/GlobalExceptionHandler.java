@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserServiceException(
             UserServiceException ex, WebRequest request) {
         ErrorResponse errorResponse = buildErrorResponse(ex.getErrorCode(),ex, request);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return ResponseEntity.status(ex.getHttpStatus()).body(errorResponse);
     }
 
 

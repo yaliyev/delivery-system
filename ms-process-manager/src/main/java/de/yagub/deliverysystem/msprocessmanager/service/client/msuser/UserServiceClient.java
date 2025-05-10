@@ -3,7 +3,6 @@ package de.yagub.deliverysystem.msprocessmanager.service.client.msuser;
 
 
 import de.yagub.deliverysystem.msprocessmanager.config.FeignConfig;
-import de.yagub.deliverysystem.msprocessmanager.error.CustomFeignException;
 import de.yagub.deliverysystem.msprocessmanager.error.UserServiceException;
 import de.yagub.deliverysystem.msprocessmanager.model.msuser.LoginRequest;
 import de.yagub.deliverysystem.msprocessmanager.model.msuser.LoginResponse;
@@ -17,11 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@ErrorHandling(
-        codeSpecific = {
-                @ErrorCodes(codes = {400, 409}, generate = CustomFeignException.class)
-        }
-)
 @FeignClient(
         name          = "user-service",
         url           = "${user.service.url}",
@@ -29,11 +23,19 @@ import org.springframework.web.bind.annotation.RequestHeader;
 )
 public interface UserServiceClient {
 
+    @ErrorHandling(
+            codeSpecific = @ErrorCodes(codes = {400, 409}, generate = UserServiceException.class),
+            defaultException = RuntimeException.class
+    )
     @PostMapping("/register")
     UserResponse register(
             @RequestBody RegistrationRequest request
     );
 
+    @ErrorHandling(
+            codeSpecific = @ErrorCodes(codes = {400, 403}, generate = UserServiceException.class),
+            defaultException = RuntimeException.class
+    )
     @PostMapping("/login")
     LoginResponse login(
             @RequestBody LoginRequest request,@RequestHeader("Authorization") String authHeader
