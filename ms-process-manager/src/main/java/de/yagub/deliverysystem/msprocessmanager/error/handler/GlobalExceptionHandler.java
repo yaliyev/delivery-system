@@ -3,8 +3,7 @@ package de.yagub.deliverysystem.msprocessmanager.error.handler;
 
 import de.yagub.deliverysystem.msprocessmanager.error.UserServiceException;
 import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorCode;
-import de.yagub.deliverysystem.msprocessmanager.model.ErrorResponse;
-import org.springframework.http.HttpStatus;
+import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

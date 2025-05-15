@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msprocessmanager.model;
+package de.yagub.deliverysystem.msprocessmanager.error.response;
 
 import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorCode;
 

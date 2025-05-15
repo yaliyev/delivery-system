@@ -1,12 +1,14 @@
 package de.yagub.deliverysystem.msprocessmanager.service.orchestration.msuser;
 
-import de.yagub.deliverysystem.msprocessmanager.model.msuser.*;
-import de.yagub.deliverysystem.msprocessmanager.service.client.msuser.UserServiceClient;
+import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginRequest;
+import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginResponse;
+import de.yagub.deliverysystem.msprocessmanager.client.user.model.RegistrationRequest;
+import de.yagub.deliverysystem.msprocessmanager.client.user.model.UserResponse;
+import de.yagub.deliverysystem.msprocessmanager.client.user.UserServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 @Slf4j
 @Service

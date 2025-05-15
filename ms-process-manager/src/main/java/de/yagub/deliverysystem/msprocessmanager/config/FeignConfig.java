@@ -1,6 +1,6 @@
 package de.yagub.deliverysystem.msprocessmanager.config;
 
-import de.yagub.deliverysystem.msprocessmanager.service.client.msuser.UserServiceClient;
+import de.yagub.deliverysystem.msprocessmanager.client.user.UserServiceClient;
 import feign.codec.ErrorDecoder;
 import feign.error.AnnotationErrorDecoder;
 import feign.jackson.JacksonDecoder;

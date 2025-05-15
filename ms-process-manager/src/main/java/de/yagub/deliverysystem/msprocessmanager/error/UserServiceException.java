@@ -1,10 +1,8 @@
 package de.yagub.deliverysystem.msprocessmanager.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorCode;
-import de.yagub.deliverysystem.msprocessmanager.model.ErrorResponse;
+import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorResponse;
 import feign.Response;
 import feign.error.FeignExceptionConstructor;
 import lombok.Getter;

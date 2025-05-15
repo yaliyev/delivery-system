@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msprocessmanager.model.msuser;
+package de.yagub.deliverysystem.msprocessmanager.client.user.model;
 
 import lombok.Builder;
 
