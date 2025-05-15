@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ms-order
+  profiles:
+    active: dev
+server:
+  port: 5052
