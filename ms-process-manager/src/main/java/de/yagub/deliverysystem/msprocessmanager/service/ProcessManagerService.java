@@ -1,4 +1,4 @@
-package de.yagub.deliverysystem.msprocessmanager.service.orchestration.msuser;
+package de.yagub.deliverysystem.msprocessmanager.service;
 
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginRequest;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginResponse;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserOrchestrationService {
+public class ProcessManagerService {
 
     private final UserServiceClient userServiceClient;
     private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;

@@ -8,6 +8,7 @@ import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginRequest;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginResponse;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.RegistrationRequest;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.UserResponse;
+import de.yagub.deliverysystem.msprocessmanager.error.response.BaseExceptionResponse;
 import feign.error.ErrorCodes;
 import feign.error.ErrorHandling;
 
