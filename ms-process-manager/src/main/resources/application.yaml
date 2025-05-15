@@ -62,10 +62,12 @@ resilience4j:
 
 logging:
   level:
-    root: INFO
-    org.springframework.web: WARN
-    org.springframework.cloud.openfeign: DEBUG
-    de.yagub.deliverysystem: DEBUG
+    root: WARN
+    org.springframework.web: ERROR
+    org.springframework.cloud.openfeign: ERROR
+    de.yagub.deliverysystem.msprocessmanager: TRACE
+    de.yagub.deliverysystem.msprocessmanager.controller: TRACE
+    de.yagub.deliverysystem.msprocessmanager.config: TRACE
   file:
     name: logs/ms-process-manager.log
   pattern:

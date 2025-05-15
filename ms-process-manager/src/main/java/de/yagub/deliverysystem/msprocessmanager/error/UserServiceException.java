@@ -21,9 +21,6 @@ import java.util.UUID;
 public class UserServiceException extends RuntimeException {
 
     private   final ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
-    private static final ObjectMapper MAPPER = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final ErrorCode errorCode;
     private final String message;
     private final int httpStatus;

@@ -17,31 +17,51 @@ public class UserOrchestrationService {
     private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
 
     public UserResponse registerUser(RegistrationRequest request) {
+        log.trace("Entering registerUser for username: {}", request.username());
+
         return circuitBreakerFactory.create("user-service-register")
                 .run(() -> {
-                    log.debug("Attempting user registration for {}", request.username());
+                    log.debug("Initiating registration flow for: {}", request.username());
+
                     UserResponse response = userServiceClient.register(request);
-                    log.info("User registered successfully: {}", response.username());
+                    log.info("Successfully registered user | Username: {}",
+                            response.username());
+
+                    log.trace("Registration details: {}", response);
                     return response;
                 }
 //                , throwable -> {
-//                    log.error("User registration failed for {}", request.username(), throwable);
-//                    throw new UserRegistrationException("User service unavailable");
+//                    log.error("Registration failed for {} | Error: {} | Circuit Open: {}",
+//                            request.username(),
+//                            throwable.getMessage(),
+//                            isCircuitOpen(throwable));  // Implement circuit state check
+//                    throw new UserRegistrationException("Registration service unavailable", throwable);
 //                }
                 );
     }
 
-    public LoginResponse loginUser(LoginRequest request,String authHeader) {
+    public LoginResponse loginUser(LoginRequest request, String authHeader) {
+        log.trace("Login attempt initiated | Username: {} | AuthHeaderPresent: {}",
+                request.username(),
+                !authHeader.isBlank());
+
         return circuitBreakerFactory.create("user-service-login")
                 .run(() -> {
-                    log.debug("Attempting login for {}", request.username());
-                    LoginResponse response = userServiceClient.login(request,authHeader);
-                    log.info("User logged in: {}", request.username());
+                    log.debug("Processing login for: {}", request.username());
+
+                    LoginResponse response = userServiceClient.login(request, authHeader);
+                    log.info("Successful login | Username: {}",
+                            request.username());
+
+                    log.trace("Full login response: {}", response);
                     return response;
                 }
 //                , throwable -> {
-//                    log.error("Login failed for {}", request.username(), throwable);
-//                    throw new UserLoginException("Login service unavailable");
+//                    log.error("Login failed for {} | ErrorType: {} | Message: {}",
+//                            request.username(),
+//                            throwable.getClass().getSimpleName(),
+//                            throwable.getMessage());
+//                    throw new UserLoginException("Login service unavailable", throwable);
 //                }
                 );
     }
