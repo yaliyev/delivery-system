@@ -2,12 +2,12 @@ package de.yagub.deliverysystem.msprocessmanager.client.user;
 
 
 
-import de.yagub.deliverysystem.msprocessmanager.config.FeignConfig;
-import de.yagub.deliverysystem.msprocessmanager.error.UserServiceException;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginRequest;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.LoginResponse;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.RegistrationRequest;
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.UserResponse;
+import de.yagub.deliverysystem.msprocessmanager.config.UserFeignConfig;
+import de.yagub.deliverysystem.msprocessmanager.error.UserProviderException;
 import de.yagub.deliverysystem.msprocessmanager.error.response.BaseExceptionResponse;
 import feign.error.ErrorCodes;
 import feign.error.ErrorHandling;
@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(
         name          = "user-service",
         url           = "${user.service.url}",
-        configuration = FeignConfig.class
+        configuration = UserFeignConfig.class
 )
 public interface UserServiceClient {
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {400, 409}, generate = UserServiceException.class),
-            defaultException = RuntimeException.class
+            codeSpecific = @ErrorCodes(codes = {400, 409}, generate = UserProviderException.class),
+            defaultException = BaseExceptionResponse.class
     )
     @PostMapping("/register")
     UserResponse register(
@@ -34,8 +34,8 @@ public interface UserServiceClient {
     );
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {400, 403}, generate = UserServiceException.class),
-            defaultException = RuntimeException.class
+            codeSpecific = @ErrorCodes(codes = {400, 403}, generate = UserProviderException.class),
+            defaultException = BaseExceptionResponse.class
     )
     @PostMapping("/login")
     LoginResponse login(

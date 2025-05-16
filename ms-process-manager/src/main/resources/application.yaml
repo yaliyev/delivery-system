@@ -7,6 +7,12 @@ user:
     connect-timeout: 2000ms
     read-timeout: 5000ms
 
+order:
+  service:
+    url: http://localhost:5052/api/orders
+    connect-timeout: 2000ms
+    read-timeout: 5000ms
+
 spring:
   application:
     name: ms-process-manager
@@ -23,6 +29,24 @@ spring:
             automaticTransitionFromOpenToHalfOpenEnabled: true
             registerHealthIndicator: true
           user-service-login:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          order-service-create-order:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          order-service-get-order-by-id:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          order-service-get-orders-by-customer-id:
             failureRateThreshold: 40
             waitDurationInOpenState: 3000ms
             slidingWindowSize: 10

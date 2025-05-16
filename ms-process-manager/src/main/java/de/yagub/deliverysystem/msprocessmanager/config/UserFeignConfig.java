@@ -1,5 +1,6 @@
 package de.yagub.deliverysystem.msprocessmanager.config;
 
+import de.yagub.deliverysystem.msprocessmanager.client.order.OrderServiceClient;
 import de.yagub.deliverysystem.msprocessmanager.client.user.UserServiceClient;
 import feign.codec.ErrorDecoder;
 import feign.error.AnnotationErrorDecoder;
@@ -9,15 +10,13 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class FeignConfig {
+public class UserFeignConfig {
 
     @Bean
-    public ErrorDecoder errorDecoder() {
+    public ErrorDecoder userErrorDecoder() {
         return AnnotationErrorDecoder
                 .builderFor(UserServiceClient.class)
                 .withResponseBodyDecoder(new JacksonDecoder())
                 .build();
     }
-
-
 }

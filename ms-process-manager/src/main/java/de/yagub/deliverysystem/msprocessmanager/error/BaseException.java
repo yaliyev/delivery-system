@@ -7,12 +7,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+//@EqualsAndHashCode(callSuper = false)
 public class BaseException extends RuntimeException{
     private ErrorResponse errorResponse;
     private final int status;
 
     public BaseException(ErrorResponse errorResponse,int status){
+        super(errorResponse.message());
         this.errorResponse = errorResponse;
         this.status = status;
     }

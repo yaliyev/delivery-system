@@ -1,6 +1,7 @@
 package de.yagub.deliverysystem.msprocessmanager.error.handler;
 
 
+import de.yagub.deliverysystem.msprocessmanager.error.OrderProviderException;
 import de.yagub.deliverysystem.msprocessmanager.error.UserProviderException;
 import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,14 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserProviderException.class)
-    public ResponseEntity<ErrorResponse> handleUserServiceException(
+    public ResponseEntity<ErrorResponse> handleUserProviderException(
             UserProviderException ex, WebRequest request) {
+        logError(ex.getErrorResponse());
+        return ResponseEntity.status(ex.getStatus()).body(ex.getErrorResponse());
+    }
+
+    @ExceptionHandler(OrderProviderException.class)
+    public ResponseEntity<ErrorResponse> handleOrderProviderException(OrderProviderException ex,WebRequest request){
         logError(ex.getErrorResponse());
         return ResponseEntity.status(ex.getStatus()).body(ex.getErrorResponse());
     }
