@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ms-wallet
+  profiles:
+    active: dev
+server:
+  port: 5053
