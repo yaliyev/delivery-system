@@ -6,10 +6,14 @@ import de.yagub.deliverysystem.msprocessmanager.error.UserProviderException;
 import de.yagub.deliverysystem.msprocessmanager.error.WalletProviderException;
 import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+
+import java.net.ConnectException;
 
 @Slf4j
 @RestControllerAdvice
@@ -32,6 +36,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleWalletProviderException(WalletProviderException ex,WebRequest request){
         logError(ex.getErrorResponse());
         return ResponseEntity.status(ex.getStatus()).body(ex.getErrorResponse());
+    }
+
+    @ExceptionHandler(ConnectException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorResponse handleConnectException(ConnectException ex,WebRequest request){
+        ErrorResponse errorResponse = new ErrorResponse(
+                         "CONNECTION_REFUSED",
+                        ex.getMessage(),
+                        request.getDescription(false).replace("uri=", "")
+                );
+        logError(errorResponse);
+        return errorResponse;
     }
 
     private void logError(ErrorResponse errorResponse){
