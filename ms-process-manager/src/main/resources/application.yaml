@@ -13,6 +13,12 @@ order:
     connect-timeout: 2000ms
     read-timeout: 5000ms
 
+wallet:
+  service:
+    url: http://localhost:5053/api/wallets
+    connect-timeout: 2000ms
+    read-timeout: 5000ms
+
 spring:
   application:
     name: ms-process-manager
@@ -52,6 +58,51 @@ spring:
             slidingWindowSize: 10
             minimumNumberOfCalls: 5
             registerHealthIndicator: true
+          wallet-service-create-wallet:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          wallet-service-get-wallet:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          wallet-service-deposit-funds:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          wallet-service-withdraw-funds:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          wallet-service-update-wallet-status:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          wallet-service-get-all-wallets:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+          wallet-service-delete-wallet:
+            failureRateThreshold: 40
+            waitDurationInOpenState: 3000ms
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            registerHealthIndicator: true
+
+
+
 
 feign:
   client:

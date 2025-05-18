@@ -2,12 +2,13 @@ package de.yagub.deliverysystem.msprocessmanager;
 
 import de.yagub.deliverysystem.msprocessmanager.client.order.OrderServiceClient;
 import de.yagub.deliverysystem.msprocessmanager.client.user.UserServiceClient;
+import de.yagub.deliverysystem.msprocessmanager.client.wallet.WalletServiceClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients(clients = {UserServiceClient.class, OrderServiceClient.class})
+@EnableFeignClients(clients = {UserServiceClient.class, OrderServiceClient.class, WalletServiceClient.class})
 public class MsProcessManagerApplication {
 
     public static void main(String[] args) {
