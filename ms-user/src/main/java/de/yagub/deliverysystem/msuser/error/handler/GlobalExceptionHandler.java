@@ -1,6 +1,8 @@
 package de.yagub.deliverysystem.msuser.error.handler;
 
+import de.yagub.deliverysystem.msuser.error.InvalidPasswordValidationException;
 import de.yagub.deliverysystem.msuser.error.InvalidUserCredentialsException;
+import de.yagub.deliverysystem.msuser.error.InvalidUsernameValidationException;
 import de.yagub.deliverysystem.msuser.error.UsernameAlreadyExistsException;
 import de.yagub.deliverysystem.msuser.error.response.ErrorCode;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,34 @@ public class GlobalExceptionHandler {
                 request.getDescription(false).replace("uri=", "")
         );
 
+        return response;
+    }
+
+    @ExceptionHandler(InvalidUsernameValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidUsernameValidationException(
+            InvalidUsernameValidationException ex,
+            WebRequest request) {
+
+        ErrorResponse response = new ErrorResponse(
+                ErrorCode.INVALID_USERNAME_VALIDATION,
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return response;
+    }
+
+    @ExceptionHandler(InvalidPasswordValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidPasswordValidationException(
+            InvalidPasswordValidationException ex,
+            WebRequest request) {
+
+        ErrorResponse response = new ErrorResponse(
+                ErrorCode.INVALID_PASSWORD_VALIDATION,
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
         return response;
     }
 

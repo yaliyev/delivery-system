@@ -11,11 +11,15 @@ import de.yagub.deliverysystem.msuser.error.InvalidUserCredentialsException;
 import de.yagub.deliverysystem.msuser.error.UsernameAlreadyExistsException;
 import de.yagub.deliverysystem.msuser.model.User;
 import de.yagub.deliverysystem.msuser.repository.UserRepository;
+import de.yagub.deliverysystem.msuser.service.filter.Filter;
+import de.yagub.deliverysystem.msuser.service.filter.FilterChainBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +30,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
+    private final List<Filter<RegistrationRequest>> filters;
+    private final FilterChainBuilder<RegistrationRequest> filterChainBuilder;
+
     @Override
     public UserResponse register(RegistrationRequest request) {
-        if (userRepository.existsByUsername(request.username())) {
-            throw new UsernameAlreadyExistsException(request.username());
-        }
+
+         filterChainBuilder.logFilters();
+         filterChainBuilder.build().proceed(request);
+//        if (userRepository.existsByUsername(request.username())) {
+//            throw new UsernameAlreadyExistsException(request.username());
+//        }
 
         String passwordHash = passwordEncoder.encode(request.password());
         var user = User.builder()
