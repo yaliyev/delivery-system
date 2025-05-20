@@ -22,19 +22,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserProviderException.class)
     public ResponseEntity<ErrorResponse> handleUserProviderException(
             UserProviderException ex, WebRequest request) {
-        logError(ex.getErrorResponse());
         return ResponseEntity.status(ex.getStatus()).body(ex.getErrorResponse());
     }
 
     @ExceptionHandler(OrderProviderException.class)
     public ResponseEntity<ErrorResponse> handleOrderProviderException(OrderProviderException ex,WebRequest request){
-        logError(ex.getErrorResponse());
         return ResponseEntity.status(ex.getStatus()).body(ex.getErrorResponse());
     }
 
     @ExceptionHandler(WalletProviderException.class)
     public ResponseEntity<ErrorResponse> handleWalletProviderException(WalletProviderException ex,WebRequest request){
-        logError(ex.getErrorResponse());
         return ResponseEntity.status(ex.getStatus()).body(ex.getErrorResponse());
     }
 
@@ -46,13 +43,12 @@ public class GlobalExceptionHandler {
                         ex.getMessage(),
                         request.getDescription(false).replace("uri=", "")
                 );
-        logError(errorResponse);
         return errorResponse;
     }
 
-    private void logError(ErrorResponse errorResponse){
-        log.error(errorResponse.toString());
-    }
+//    private void logError(ErrorResponse errorResponse){
+//        log.error(errorResponse.toString());
+//    }
 
 //    private ErrorResponse buildErrorResponse(String errorCode, Exception ex, WebRequest request) {
 //        String path = request.getDescription(false).replace("uri=", "");

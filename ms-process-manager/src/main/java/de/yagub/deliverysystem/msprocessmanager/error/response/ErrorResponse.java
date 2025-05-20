@@ -1,6 +1,5 @@
 package de.yagub.deliverysystem.msprocessmanager.error.response;
 
-import de.yagub.deliverysystem.msprocessmanager.error.response.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;

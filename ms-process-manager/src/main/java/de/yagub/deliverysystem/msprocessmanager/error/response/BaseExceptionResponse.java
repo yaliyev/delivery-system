@@ -33,9 +33,8 @@ public class BaseExceptionResponse extends BaseException {
         if (response.body() != null) {
             try (InputStream body = response.body().asInputStream()) {
                 errorResponse = objectMapper.readValue(body, ErrorResponse.class);
-                log.warn("Received error response from service: {}", errorResponse);
             } catch (IOException e) {
-                log.error("Failed to decode error response", e);
+                e.printStackTrace();
             }
 
         }

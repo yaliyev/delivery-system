@@ -103,14 +103,15 @@ spring:
 
 
 
-
 feign:
   client:
     config:
       default:
-        connectTimeout: 2000
-        readTimeout: 5000
-        loggerLevel: basic
+        loggerLevel: FULL
+
+logging:
+  level:
+    de.yagub.deliverysystem: DEBUG
 
 management:
   endpoints:
@@ -135,15 +136,3 @@ resilience4j:
   circuitbreaker:
     register-health-indicator: true # Global registration
 
-logging:
-  level:
-    root: WARN
-    org.springframework.web: ERROR
-    org.springframework.cloud.openfeign: ERROR
-    de.yagub.deliverysystem.msprocessmanager: TRACE
-    de.yagub.deliverysystem.msprocessmanager.controller: TRACE
-    de.yagub.deliverysystem.msprocessmanager.config: TRACE
-  file:
-    name: logs/ms-process-manager.log
-  pattern:
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class UserFeignConfig {
+public class UserFeignConfig extends GlobalLoggingFeignConfig{
 
     @Bean
     public ErrorDecoder userErrorDecoder() {
