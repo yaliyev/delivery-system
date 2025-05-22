@@ -8,8 +8,7 @@ import de.yagub.deliverysystem.msprocessmanager.client.wallet.model.WalletRespon
 import de.yagub.deliverysystem.msprocessmanager.client.wallet.model.WalletStatus;
 import de.yagub.deliverysystem.msprocessmanager.config.OrderFeignConfig;
 import de.yagub.deliverysystem.msprocessmanager.config.WalletFeignConfig;
-import de.yagub.deliverysystem.msprocessmanager.error.OrderProviderException;
-import de.yagub.deliverysystem.msprocessmanager.error.WalletProviderException;
+import de.yagub.deliverysystem.msprocessmanager.error.*;
 import de.yagub.deliverysystem.msprocessmanager.error.response.BaseExceptionResponse;
 import feign.error.ErrorCodes;
 import feign.error.ErrorHandling;
@@ -28,44 +27,62 @@ public interface WalletServiceClient {
 
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {409}, generate = WalletProviderException.class),
-            defaultException = BaseExceptionResponse.class
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
     )
     @PostMapping("")
     WalletResponse createWallet(@RequestBody CreateWalletRequest request);
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {404}, generate = WalletProviderException.class),
-            defaultException = BaseExceptionResponse.class
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
     )
     @GetMapping("/{userId}")
     WalletResponse getWallet(@PathVariable Long userId);
 
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {404}, generate = WalletProviderException.class),
-            defaultException = BaseExceptionResponse.class
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
     )
     @PostMapping("/deposit")
     WalletResponse depositFunds(@RequestBody UpdateBalanceRequest request);
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {404}, generate = WalletProviderException.class),
-            defaultException = BaseExceptionResponse.class
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
     )
     @PostMapping("/withdraw")
     WalletResponse withdrawFunds(@RequestBody UpdateBalanceRequest request);
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {404}, generate = WalletProviderException.class),
-            defaultException = BaseExceptionResponse.class
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
     )
     @PatchMapping("/{walletId}/status")
     WalletResponse updateWalletStatus(@PathVariable Long walletId, @RequestParam WalletStatus status);
 
     @ErrorHandling(
-            codeSpecific = @ErrorCodes(codes = {4}, generate = WalletProviderException.class),
-            defaultException = BaseExceptionResponse.class
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
     )
     @GetMapping
     List<WalletResponse> getAllWallets(
@@ -73,6 +90,13 @@ public interface WalletServiceClient {
             @RequestParam(defaultValue = "10") int size
     );
 
+    @ErrorHandling(
+            codeSpecific = {
+                    @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+            },
+            defaultException = WalletProviderException.class
+    )
     @DeleteMapping("/{walletId}")
     void deleteWallet(@PathVariable Long walletId);
 }

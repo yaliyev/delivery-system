@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/pm")
+@RequestMapping("/v1/ms-process-manager")
 @RequiredArgsConstructor
 public class ProcessManagerController {
 

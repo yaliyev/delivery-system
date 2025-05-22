@@ -17,7 +17,7 @@ public class BaseExceptionResponse extends BaseException {
 
     private static  final ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
-    @FeignExceptionConstructor
+
     public BaseExceptionResponse(Response response){
         super(parseErrorResponse(response),response.status());
     }
