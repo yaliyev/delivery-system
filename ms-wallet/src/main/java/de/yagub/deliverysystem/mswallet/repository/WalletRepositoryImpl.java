@@ -1,7 +1,9 @@
 package de.yagub.deliverysystem.mswallet.repository;
 
+import de.yagub.deliverysystem.mswallet.error.UserNotFoundException;
 import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
+import oracle.jdbc.OracleDatabaseException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -44,7 +46,19 @@ public class WalletRepositoryImpl implements WalletRepository {
         params.put("UPDATED_AT", LocalDateTime.now());
         params.put("VERSION", 0L);
 
-        Number id = insertWallet.executeAndReturnKey(params);
+        Number id = null;
+        try {
+            id = insertWallet.executeAndReturnKey(params);
+        }catch (Exception exception){
+
+            if(exception.getMessage().contains("ORA-02291: integrity constraint (DELIVERY_SYSTEM.FK_WALLETS_USER_ID)")){
+                 throw new UserNotFoundException("User with id: "+wallet.getUserId()+" doesn't exists.");
+            }else{
+               exception.getStackTrace();
+            }
+
+        }
+
         wallet.setId(id.longValue());
         return wallet;
     }

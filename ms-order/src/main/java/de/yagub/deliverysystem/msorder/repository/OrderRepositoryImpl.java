@@ -1,5 +1,6 @@
 package de.yagub.deliverysystem.msorder.repository;
 
+import de.yagub.deliverysystem.msorder.error.CustomerNotFoundException;
 import de.yagub.deliverysystem.msorder.model.Order;
 import de.yagub.deliverysystem.msorder.model.OrderItem;
 import de.yagub.deliverysystem.msorder.model.OrderStatus;
@@ -31,7 +32,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     private final RowMapper<Order> orderRowMapper = (rs, rowNum) -> {
         Order o = new Order();
         o.setId(rs.getString("ID"));
-        o.setCustomerId(rs.getString("CUSTOMER_ID"));
+        o.setCustomerId(rs.getLong("CUSTOMER_ID"));
         o.setTotalAmount(rs.getBigDecimal("TOTAL_AMOUNT"));
         o.setStatus(OrderStatus.valueOf(rs.getString("STATUS")));
         o.setCreatedAt(rs.getTimestamp("CREATED_AT").toLocalDateTime());
@@ -65,7 +66,16 @@ public class OrderRepositoryImpl implements OrderRepository {
             params.put("CREATED_AT", Timestamp.valueOf(order.getCreatedAt()));
             params.put("UPDATED_AT", Timestamp.valueOf(order.getUpdatedAt()));
 
-            orderInserter.execute(params);
+            try {
+                orderInserter.execute(params);
+            }catch (Exception ex){
+                if(ex.getMessage().contains("ORA-02291: integrity constraint (DELIVERY_SYSTEM.ORDERS_CUSTOMER_FK) violated")){
+                    throw new CustomerNotFoundException("Customer with id: "+order.getCustomerId()+" doesn't exists.");
+                }else{
+                    ex.printStackTrace();
+                }
+            }
+
         } else {
             // Update existing order
             jdbc.update(
@@ -118,7 +128,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> findByCustomerId(String customerId) {
+    public List<Order> findByCustomerId(Long customerId) {
         List<Order> orders = jdbc.query(
                 "SELECT * FROM ORDERS WHERE CUSTOMER_ID = ?",
                 orderRowMapper,

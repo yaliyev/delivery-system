@@ -66,15 +66,14 @@ public class GlobalExceptionHandler {
         return response;
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleUserNotFoundException(UserNotFoundException ex, WebRequest request){
+        ErrorResponse response = new ErrorResponse(
+                ErrorCode.NOT_FOUND,
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return response;
+    }
 }

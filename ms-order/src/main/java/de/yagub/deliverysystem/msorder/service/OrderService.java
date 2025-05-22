@@ -12,7 +12,7 @@ public interface OrderService {
 
     OrderResponse getOrderById(String orderId);
 
-    List<OrderResponse> getOrdersByCustomerId(String customerId);
+    List<OrderResponse> getOrdersByCustomerId(Long customerId);
 
 
     List<OrderResponse> getAllOrders();

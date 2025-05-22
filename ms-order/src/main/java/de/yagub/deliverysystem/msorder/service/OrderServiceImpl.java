@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderResponse> getOrdersByCustomerId(String customerId) {
+    public List<OrderResponse> getOrdersByCustomerId(Long customerId) {
         List<OrderResponse> orders = orderRepository.findByCustomerId(customerId).stream()
                 .map(orderMapper::toOrderResponse)
                 .collect(Collectors.toList());
