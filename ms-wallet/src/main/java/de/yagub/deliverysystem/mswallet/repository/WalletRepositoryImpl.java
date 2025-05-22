@@ -20,28 +20,29 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class WalletRepositoryImpl implements WalletRepository{
+public class WalletRepositoryImpl implements WalletRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertWallet;
 
     public WalletRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.insertWallet = new SimpleJdbcInsert(dataSource)
-                .withTableName("wallets")
-                .usingGeneratedKeyColumns("id");
+                .withTableName("WALLETS")
+                .usingGeneratedKeyColumns("ID")
+                .usingColumns("USER_ID", "BALANCE", "CURRENCY", "STATUS",
+                        "CREATED_AT", "UPDATED_AT", "VERSION");
     }
 
     @Override
     public Wallet create(Wallet wallet) {
-        Map<String, Object> params = Map.of(
-                "user_id", wallet.getUserId(),
-                "balance", wallet.getBalance(),
-                "currency", wallet.getCurrency(),
-                "status", wallet.getStatus().name(),
-                "created_at", LocalDateTime.now(),
-                "updated_at", LocalDateTime.now(),
-                "version", 0L
-        );
+        Map<String, Object> params = new HashMap<>();
+        params.put("USER_ID", wallet.getUserId());
+        params.put("BALANCE", wallet.getBalance());
+        params.put("CURRENCY", wallet.getCurrency());
+        params.put("STATUS", wallet.getStatus().name());
+        params.put("CREATED_AT", LocalDateTime.now());
+        params.put("UPDATED_AT", LocalDateTime.now());
+        params.put("VERSION", 0L);
 
         Number id = insertWallet.executeAndReturnKey(params);
         wallet.setId(id.longValue());
@@ -51,29 +52,31 @@ public class WalletRepositoryImpl implements WalletRepository{
     @Override
     public List<Wallet> findAll(int limit, int offset) {
         String sql = """
-        SELECT id, user_id, balance, currency, 
-               created_at, updated_at, status, version
-        FROM wallets
-        ORDER BY id
-        LIMIT ? OFFSET ?""";
+            SELECT * FROM (
+                SELECT a.*, ROWNUM rnum FROM (
+                    SELECT ID, USER_ID, BALANCE, CURRENCY, 
+                           CREATED_AT, UPDATED_AT, STATUS, VERSION
+                    FROM WALLETS
+                    ORDER BY ID
+                ) a WHERE ROWNUM <= ?
+            ) WHERE rnum > ?""";
 
-        return jdbcTemplate.query(sql, new WalletRowMapper(), limit, offset);
+        return jdbcTemplate.query(sql, new WalletRowMapper(), offset + limit, offset);
     }
 
     @Override
     @Transactional
     public Optional<Wallet> update(Wallet wallet) {
-        // First execute the update with version check
         int updatedRows = jdbcTemplate.update(
                 """
-                UPDATE wallets
-                SET user_id = ?,
-                    balance = ?,
-                    currency = ?,
-                    status = ?,
-                    updated_at = ?,
-                    version = version + 1
-                WHERE id = ? AND version = ?
+                UPDATE WALLETS
+                SET USER_ID = ?,
+                    BALANCE = ?,
+                    CURRENCY = ?,
+                    STATUS = ?,
+                    UPDATED_AT = ?,
+                    VERSION = VERSION + 1
+                WHERE ID = ? AND VERSION = ?
                 """,
                 wallet.getUserId(),
                 wallet.getBalance(),
@@ -84,11 +87,10 @@ public class WalletRepositoryImpl implements WalletRepository{
                 wallet.getVersion()
         );
 
-        // If update was successful, fetch and return the updated wallet
         if (updatedRows > 0) {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT * FROM wallets WHERE id = ?",
+                            "SELECT * FROM WALLETS WHERE ID = ?",
                             new WalletRowMapper(),
                             wallet.getId()
                     )
@@ -99,7 +101,7 @@ public class WalletRepositoryImpl implements WalletRepository{
 
     @Override
     public Optional<Wallet> findById(Long id) {
-        String sql = "SELECT * FROM wallets WHERE id = ?";
+        String sql = "SELECT * FROM WALLETS WHERE ID = ?";
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(sql, new WalletRowMapper(), id)
@@ -112,10 +114,10 @@ public class WalletRepositoryImpl implements WalletRepository{
     @Override
     public Optional<Wallet> findByUserId(Long userId) {
         String sql = """
-            SELECT id, user_id, balance, currency, 
-                   created_at, updated_at, status, version
-            FROM wallets
-            WHERE user_id = ?""";
+            SELECT ID, USER_ID, BALANCE, CURRENCY, 
+                   CREATED_AT, UPDATED_AT, STATUS, VERSION
+            FROM WALLETS
+            WHERE USER_ID = ?""";
 
         try {
             Wallet wallet = jdbcTemplate.queryForObject(sql, new WalletRowMapper(), userId);
@@ -128,11 +130,11 @@ public class WalletRepositoryImpl implements WalletRepository{
     @Override
     public int updateBalance(Long walletId, BigDecimal amount) {
         String sql = """
-        UPDATE wallets 
-        SET balance = balance + ?, 
-            updated_at = CURRENT_TIMESTAMP,
-            version = version + 1
-        WHERE id = ?""";
+            UPDATE WALLETS 
+            SET BALANCE = BALANCE + ?, 
+                UPDATED_AT = SYSTIMESTAMP,
+                VERSION = VERSION + 1
+            WHERE ID = ?""";
         return jdbcTemplate.update(sql, amount, walletId);
     }
 
@@ -140,16 +142,14 @@ public class WalletRepositoryImpl implements WalletRepository{
         @Override
         public Wallet mapRow(ResultSet rs, int rowNum) throws SQLException {
             Wallet wallet = new Wallet();
-            wallet.setId(rs.getLong("id"));
-            wallet.setUserId(rs.getLong("user_id"));
-            wallet.setBalance(rs.getBigDecimal("balance"));
-            wallet.setCurrency(rs.getString("currency"));
-            wallet.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-            wallet.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
-
-            wallet.setStatus(WalletStatus.valueOf(rs.getString("status")));
-
-            wallet.setVersion(rs.getLong("version"));
+            wallet.setId(rs.getLong("ID"));
+            wallet.setUserId(rs.getLong("USER_ID"));
+            wallet.setBalance(rs.getBigDecimal("BALANCE"));
+            wallet.setCurrency(rs.getString("CURRENCY"));
+            wallet.setCreatedAt(rs.getTimestamp("CREATED_AT").toLocalDateTime());
+            wallet.setUpdatedAt(rs.getTimestamp("UPDATED_AT").toLocalDateTime());
+            wallet.setStatus(WalletStatus.valueOf(rs.getString("STATUS")));
+            wallet.setVersion(rs.getLong("VERSION"));
             return wallet;
         }
     }
