@@ -3,6 +3,6 @@ package de.yagub.deliverysystem.msprocessmanager.client.order.model;
 import java.util.List;
 
 public record OrderRequest (
-        String customerId,
+        Long customerId,
         List<OrderItemRequest> items
 ){}

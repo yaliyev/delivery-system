@@ -13,6 +13,9 @@ import de.yagub.deliverysystem.msprocessmanager.client.wallet.model.CreateWallet
 import de.yagub.deliverysystem.msprocessmanager.client.wallet.model.UpdateBalanceRequest;
 import de.yagub.deliverysystem.msprocessmanager.client.wallet.model.WalletResponse;
 import de.yagub.deliverysystem.msprocessmanager.client.wallet.model.WalletStatus;
+import de.yagub.deliverysystem.msprocessmanager.dto.request.ProcessManagerRequest;
+import de.yagub.deliverysystem.msprocessmanager.dto.response.ProcessManagerResponse;
+import de.yagub.deliverysystem.msprocessmanager.mapper.ProcessManagerMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -32,9 +35,21 @@ public class ProcessManagerService {
     private final OrderServiceClient orderServiceClient;
 
     private final WalletServiceClient walletServiceClient;
-    private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
 
+    private final ProcessManagerMapper processManagerMapper;
 
+    public ProcessManagerResponse start(ProcessManagerRequest request) {
+
+        UserResponse userResponse = userServiceClient.register(request.registrationRequest());
+
+        WalletResponse walletResponse = walletServiceClient.createWallet(processManagerMapper.mergeIntoCreateWalletRequest(request.createWalletRequest(), userResponse));
+
+        OrderResponse orderResponse = orderServiceClient.createOrder(processManagerMapper.mergeIntoOrderRequest(request.orderRequest(), userResponse));
+
+        ProcessManagerResponse response = new ProcessManagerResponse(userResponse, walletResponse, orderResponse);
+
+        return response;
+    }
 
 
 }

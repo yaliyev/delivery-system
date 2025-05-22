@@ -4,104 +4,24 @@ server:
 user:
   service:
     url: http://localhost:5050/api/users
-    connect-timeout: 2000ms
-    read-timeout: 5000ms
+    connect-timeout: 4000ms
+    read-timeout: 8000ms
 
 order:
   service:
     url: http://localhost:5052/api/orders
-    connect-timeout: 2000ms
-    read-timeout: 5000ms
+    connect-timeout: 4000ms
+    read-timeout: 8000ms
 
 wallet:
   service:
     url: http://localhost:5053/api/wallets
-    connect-timeout: 2000ms
-    read-timeout: 5000ms
+    connect-timeout: 4000ms
+    read-timeout: 8000ms
 
 spring:
   application:
     name: ms-process-manager
-  cloud:
-    circuitbreaker:
-      resilience4j:
-        instances:
-          user-service-register:
-            failureRateThreshold: 50
-            waitDurationInOpenState: 5000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            permittedNumberOfCallsInHalfOpenState: 3
-            automaticTransitionFromOpenToHalfOpenEnabled: true
-            registerHealthIndicator: true
-          user-service-login:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          order-service-create-order:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          order-service-get-order-by-id:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          order-service-get-orders-by-customer-id:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-create-wallet:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-get-wallet:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-deposit-funds:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-withdraw-funds:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-update-wallet-status:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-get-all-wallets:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-          wallet-service-delete-wallet:
-            failureRateThreshold: 40
-            waitDurationInOpenState: 3000ms
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            registerHealthIndicator: true
-
-
 
 feign:
   client:
@@ -112,27 +32,3 @@ feign:
 logging:
   level:
     de.yagub.deliverysystem: DEBUG
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,circuitbreakers
-  endpoint:
-    health:
-      show-details: always
-      group:
-        custom:
-          include: circuitBreakers # Note the exact capitalization
-    circuitbreakers:
-      enabled: true
-  health:
-    circuitbreakers:
-      enabled: true
-    resilience4j:
-      enabled: true
-
-resilience4j:
-  circuitbreaker:
-    register-health-indicator: true # Global registration
-

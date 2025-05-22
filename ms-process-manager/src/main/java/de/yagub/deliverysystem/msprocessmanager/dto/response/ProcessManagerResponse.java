@@ -10,6 +10,6 @@ import java.util.List;
 public record ProcessManagerResponse(
         UserResponse userResponse,
         WalletResponse walletResponse,
-        List<OrderResponse> orders
+        OrderResponse orders
 ) {
 }
