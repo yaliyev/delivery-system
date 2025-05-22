@@ -1,6 +1,10 @@
 package de.yagub.deliverysystem.msuser.service.filter;
 
-public interface Filter<T> {
-    void execute(T context, FilterChain<T> chain);
+import de.yagub.deliverysystem.msuser.model.FilterTarget;
+import de.yagub.deliverysystem.msuser.model.enums.FilterId;
+
+public interface Filter{
+    void execute(FilterTarget filterTarget);
+    FilterId id();
 
 }

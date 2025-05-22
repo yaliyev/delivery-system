@@ -9,10 +9,15 @@ import de.yagub.deliverysystem.msuser.dto.response.LoginResponse;
 import de.yagub.deliverysystem.msuser.dto.response.UserResponse;
 import de.yagub.deliverysystem.msuser.error.InvalidUserCredentialsException;
 import de.yagub.deliverysystem.msuser.error.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.model.FilterTarget;
 import de.yagub.deliverysystem.msuser.model.User;
+import de.yagub.deliverysystem.msuser.model.enums.FilterId;
 import de.yagub.deliverysystem.msuser.repository.UserRepository;
 import de.yagub.deliverysystem.msuser.service.filter.Filter;
 import de.yagub.deliverysystem.msuser.service.filter.FilterChainBuilder;
+import de.yagub.deliverysystem.msuser.service.filter.impl.DuplicateUsernameFilter;
+import de.yagub.deliverysystem.msuser.service.filter.impl.PasswordStrengthFilter;
+import de.yagub.deliverysystem.msuser.service.filter.impl.UsernameValidationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,17 +35,38 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    private final List<Filter<RegistrationRequest>> filters;
-    private final FilterChainBuilder<RegistrationRequest> filterChainBuilder;
+    private final FilterChainBuilder filterChainBuilder;
+
+    private final DuplicateUsernameFilter duplicateUsernameFilter;
+
+    private final PasswordStrengthFilter passwordStrengthFilter;
+
+    private final UsernameValidationFilter usernameValidationFilter;
 
     @Override
     public UserResponse register(RegistrationRequest request) {
 
-         filterChainBuilder.logFilters();
-         filterChainBuilder.build().proceed(request);
-//        if (userRepository.existsByUsername(request.username())) {
-//            throw new UsernameAlreadyExistsException(request.username());
-//        }
+        List<FilterId> filterList =  filterChainBuilder.getUserServiceFilters();
+
+        FilterTarget filterTarget = new FilterTarget(request);
+        for(int i = 0;i < filterList.size();i++){
+
+            FilterId filter = filterList.get(i);
+
+            switch(filter){
+                case DUPLICATE_USERNAME_FILTER -> {
+                   duplicateUsernameFilter.execute(filterTarget);
+                }
+                case PASSWORD_STRENGTH_FILTER -> {
+                    passwordStrengthFilter.execute(filterTarget);
+                }
+                case USERNAME_VALIDATION_FILTER -> {
+                    usernameValidationFilter.execute(filterTarget);
+                }
+            }
+
+        }
+
 
         String passwordHash = passwordEncoder.encode(request.password());
         var user = User.builder()
