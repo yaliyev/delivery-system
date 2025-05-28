@@ -33,8 +33,8 @@ public class UserRepositoryImpl implements UserRepository {
         // For Oracle using sequence
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        String sql = "INSERT INTO users (id, username, password_hash, enabled) " +
-                "VALUES (users_seq.NEXTVAL, ?, ?, ?)";
+        String sql = Query.SAVE.getQuery();
+
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
@@ -56,7 +56,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
+        String sql = Query.FIND_BY_USERNAME.getQuery();
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(sql, userRowMapper, username)
@@ -68,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean existsByUsername(String username) {
-        String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        String sql = Query.EXISTS_BY_USERNAME.getQuery();
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, username);
         return count != null && count > 0;
     }

@@ -65,15 +65,7 @@ public class WalletRepositoryImpl implements WalletRepository {
 
     @Override
     public List<Wallet> findAll(int limit, int offset) {
-        String sql = """
-            SELECT * FROM (
-                SELECT a.*, ROWNUM rnum FROM (
-                    SELECT ID, USER_ID, BALANCE, CURRENCY, 
-                           CREATED_AT, UPDATED_AT, STATUS, VERSION
-                    FROM WALLETS
-                    ORDER BY ID
-                ) a WHERE ROWNUM <= ?
-            ) WHERE rnum > ?""";
+        String sql = Query.FIND_ALL.getQuery();
 
         return jdbcTemplate.query(sql, new WalletRowMapper(), offset + limit, offset);
     }
@@ -82,16 +74,7 @@ public class WalletRepositoryImpl implements WalletRepository {
     @Transactional
     public Optional<Wallet> update(Wallet wallet) {
         int updatedRows = jdbcTemplate.update(
-                """
-                UPDATE WALLETS
-                SET USER_ID = ?,
-                    BALANCE = ?,
-                    CURRENCY = ?,
-                    STATUS = ?,
-                    UPDATED_AT = ?,
-                    VERSION = VERSION + 1
-                WHERE ID = ? AND VERSION = ?
-                """,
+                Query.UPDATE.getQuery(),
                 wallet.getUserId(),
                 wallet.getBalance(),
                 wallet.getCurrency(),
@@ -104,7 +87,7 @@ public class WalletRepositoryImpl implements WalletRepository {
         if (updatedRows > 0) {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT * FROM WALLETS WHERE ID = ?",
+                            Query.FIND_BY_ID.getQuery(),
                             new WalletRowMapper(),
                             wallet.getId()
                     )
@@ -115,7 +98,7 @@ public class WalletRepositoryImpl implements WalletRepository {
 
     @Override
     public Optional<Wallet> findById(Long id) {
-        String sql = "SELECT * FROM WALLETS WHERE ID = ?";
+        String sql = Query.FIND_BY_ID.getQuery();
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(sql, new WalletRowMapper(), id)
@@ -127,11 +110,7 @@ public class WalletRepositoryImpl implements WalletRepository {
 
     @Override
     public Optional<Wallet> findByUserId(Long userId) {
-        String sql = """
-            SELECT ID, USER_ID, BALANCE, CURRENCY, 
-                   CREATED_AT, UPDATED_AT, STATUS, VERSION
-            FROM WALLETS
-            WHERE USER_ID = ?""";
+        String sql = Query.FIND_BY_USER_ID.getQuery();
 
         try {
             Wallet wallet = jdbcTemplate.queryForObject(sql, new WalletRowMapper(), userId);
@@ -143,12 +122,7 @@ public class WalletRepositoryImpl implements WalletRepository {
 
     @Override
     public int updateBalance(Long walletId, BigDecimal amount) {
-        String sql = """
-            UPDATE WALLETS 
-            SET BALANCE = BALANCE + ?, 
-                UPDATED_AT = SYSTIMESTAMP,
-                VERSION = VERSION + 1
-            WHERE ID = ?""";
+        String sql = Query.UPDATE_BALANCE.getQuery();
         return jdbcTemplate.update(sql, amount, walletId);
     }
 

@@ -78,21 +78,21 @@ public class OrderRepositoryImpl implements OrderRepository {
 
         } else {
             // Update existing order
-            jdbc.update(
-                    "UPDATE ORDERS SET CUSTOMER_ID = ?, TOTAL_AMOUNT = ?, STATUS = ?, UPDATED_AT = ? WHERE ID = ?",
+            jdbc.update(Query.UPDATE.getQuery()
+                    ,
                     order.getCustomerId(),
                     order.getTotalAmount(),
                     order.getStatus().name(),
                     Timestamp.valueOf(order.getUpdatedAt()),
                     order.getId()
             );
-            jdbc.update("DELETE FROM ORDER_ITEMS WHERE ORDER_ID = ?", order.getId());
+            jdbc.update(Query.DELETE_ORDER_ITEM.getQuery(), order.getId());
         }
 
         // Insert order items
         if (!order.getItems().isEmpty()) {
             jdbc.batchUpdate(
-                    "INSERT INTO ORDER_ITEMS (ORDER_ID, PRODUCT_ID, QUANTITY, PRICE_PER_UNIT) VALUES (?, ?, ?, ?)",
+                    Query.INSERT_ORDER_ITEM.getQuery(),
                     new BatchPreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement ps, int i) throws java.sql.SQLException {
@@ -117,7 +117,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Optional<Order> findById(String id) {
         try {
-            Order order = jdbc.queryForObject("SELECT * FROM ORDERS WHERE ID = ?", orderRowMapper, id);
+            Order order = jdbc.queryForObject(Query.FIND_BY_ID.getQuery(), orderRowMapper, id);
             if (order != null) {
                 order.setItems(getOrderItems(id));
             }
@@ -130,7 +130,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public List<Order> findByCustomerId(Long customerId) {
         List<Order> orders = jdbc.query(
-                "SELECT * FROM ORDERS WHERE CUSTOMER_ID = ?",
+                Query.FIND_BY_CUSTOMER_ID.getQuery(),
                 orderRowMapper,
                 customerId
         );
@@ -140,14 +140,14 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<Order> findAll() {
-        List<Order> orders = jdbc.query("SELECT * FROM ORDERS", orderRowMapper);
+        List<Order> orders = jdbc.query(Query.FIND_ALL.getQuery(), orderRowMapper);
         orders.forEach(order -> order.setItems(getOrderItems(order.getId())));
         return orders;
     }
 
     private List<OrderItem> getOrderItems(String orderId) {
         return jdbc.query(
-                "SELECT * FROM ORDER_ITEMS WHERE ORDER_ID = ?",
+                Query.FIND_ALL_ORDER_ITEMS.getQuery(),
                 itemRowMapper,
                 orderId
         );
