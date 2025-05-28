@@ -8,6 +8,7 @@ import de.yagub.deliverysystem.msprocessmanager.client.user.model.RegistrationRe
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.UserResponse;
 import de.yagub.deliverysystem.msprocessmanager.config.UserFeignConfig;
 import de.yagub.deliverysystem.msprocessmanager.error.UserBadRequestException;
+import de.yagub.deliverysystem.msprocessmanager.error.UserFailedDependencyException;
 import de.yagub.deliverysystem.msprocessmanager.error.UserNotFoundException;
 import de.yagub.deliverysystem.msprocessmanager.error.UserProviderException;
 import de.yagub.deliverysystem.msprocessmanager.error.response.BaseExceptionResponse;
@@ -29,7 +30,8 @@ public interface UserServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = UserBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = UserNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = UserNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = UserFailedDependencyException.class)
             },
             defaultException = UserProviderException.class
     )
@@ -41,7 +43,8 @@ public interface UserServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = UserBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = UserNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = UserNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = UserFailedDependencyException.class)
             },
             defaultException = UserProviderException.class
     )

@@ -29,7 +29,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
@@ -39,7 +40,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
@@ -50,7 +52,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
@@ -60,7 +63,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
@@ -70,7 +74,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
@@ -80,7 +85,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
@@ -93,7 +99,8 @@ public interface WalletServiceClient {
     @ErrorHandling(
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = WalletBadRequestException.class),
-                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class)
+                    @ErrorCodes(codes = {404}, generate = WalletNotFoundException.class),
+                    @ErrorCodes(codes = {424}, generate = WalletFailedDependencyException.class)
             },
             defaultException = WalletProviderException.class
     )
