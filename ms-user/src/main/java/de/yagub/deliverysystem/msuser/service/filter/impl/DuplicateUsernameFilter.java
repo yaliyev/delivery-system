@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Order(3)
+@Order(2)
 public class DuplicateUsernameFilter implements Filter{
 
     private final UserRepository userRepository;

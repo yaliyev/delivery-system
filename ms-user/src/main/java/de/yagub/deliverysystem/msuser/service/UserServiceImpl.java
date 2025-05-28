@@ -46,26 +46,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse register(RegistrationRequest request) {
 
-        List<FilterId> filterList =  filterChainBuilder.getUserServiceFilters();
-
         FilterTarget filterTarget = new FilterTarget(request);
-        for(int i = 0;i < filterList.size();i++){
+        List<FilterId> filterList =  filterChainBuilder.proceedUserServiceFilters(filterTarget);
 
-            FilterId filter = filterList.get(i);
-
-            switch(filter){
-                case DUPLICATE_USERNAME_FILTER -> {
-                   duplicateUsernameFilter.execute(filterTarget);
-                }
-                case PASSWORD_STRENGTH_FILTER -> {
-                    passwordStrengthFilter.execute(filterTarget);
-                }
-                case USERNAME_VALIDATION_FILTER -> {
-                    usernameValidationFilter.execute(filterTarget);
-                }
-            }
-
-        }
+        System.out.println(filterList);
 
 
         String passwordHash = passwordEncoder.encode(request.password());

@@ -1,5 +1,6 @@
 package de.yagub.deliverysystem.msuser.service.filter;
 
+import de.yagub.deliverysystem.msuser.model.FilterTarget;
 import de.yagub.deliverysystem.msuser.model.enums.FilterId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -13,19 +14,30 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class FilterChainBuilder {
-    private  FilterId[] userServiceFilters;
+    private  List<FilterId> userServiceFilters;
+
+    private final List<Filter> filters;
 
 
-    public List<FilterId> getUserServiceFilters(){
+    public List<FilterId> proceedUserServiceFilters(FilterTarget filterTarget){
 
-        userServiceFilters = FilterId.values();
+        userServiceFilters = Arrays.stream(FilterId.values()).toList();
 
-        List<FilterId> sortedFilters = Arrays.stream(userServiceFilters)
+        List<FilterId> sortedFilters = userServiceFilters.stream()
                 .sorted(Comparator.comparingInt(FilterId::getId))
                 .toList();
 
+
+        sortedFilters.stream().forEach(id -> filters.stream()
+                        .filter(filter -> id == filter.id())
+                        .forEach(filter -> filter.execute(filterTarget)));
+
         return  sortedFilters;
     }
+
+
+
+
 
 
 }

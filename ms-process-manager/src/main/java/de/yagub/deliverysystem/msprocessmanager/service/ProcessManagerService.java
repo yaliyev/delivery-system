@@ -46,7 +46,7 @@ public class ProcessManagerService {
 
         OrderResponse orderResponse = orderServiceClient.createOrder(processManagerMapper.mergeIntoOrderRequest(request.orderRequest(), userResponse));
 
-        ProcessManagerResponse response = new ProcessManagerResponse(userResponse, walletResponse, orderResponse);
+        ProcessManagerResponse response = processManagerMapper.mergeIntoProcessManagerResponse(userResponse,walletResponse,orderResponse);
 
         return response;
     }
