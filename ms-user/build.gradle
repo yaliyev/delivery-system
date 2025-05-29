@@ -31,9 +31,12 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
-    implementation 'com.h2database:h2'
-    runtimeOnly 'com.h2database:h2'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    // Oracle Database
+    implementation 'com.oracle.database.jdbc:ojdbc11:23.7.0.25.01'
 }
 configurations {
     developmentOnly

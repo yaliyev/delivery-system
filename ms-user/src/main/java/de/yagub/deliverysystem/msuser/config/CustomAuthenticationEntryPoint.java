@@ -22,9 +22,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         String errorCode = "INVALID_TOKEN";
 
         if (authException instanceof OAuth2AuthenticationException oauthEx) {
-            if (oauthEx.getError() != null) {
-                errorCode = oauthEx.getError().getErrorCode();
-            }
+//            if (oauthEx.getError() != null) {
+//                errorCode = oauthEx.getError().getErrorCode();
+//            }
 
             if (oauthEx.getCause() instanceof JwtValidationException jwtEx) {
                 if (jwtEx.getMessage().contains("JWT expired")) {
@@ -34,7 +34,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             }
         }
         response.getWriter().write(String.format(
-                "{\"errorCode\":\"%s\", \"message\":\"%s\", \"errorId\":\"%s\", " +
+                "{\"errorCode\":\"%s\", \"message\":\"%s\", \"uuid\":\"%s\", " +
                         "\"path\":\"%s\", \"timestamp\":\"%s\"}",
                 errorCode,
                 errorMessage,

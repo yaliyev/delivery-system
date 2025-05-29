@@ -19,6 +19,7 @@ import java.util.Optional;
 public class UserRepositoryImpl implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
     private final RowMapper<User> userRowMapper = (rs, rowNum) ->
             new User(
                     rs.getLong("id"),
@@ -29,13 +30,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
+        // For Oracle using sequence
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        String sql = Query.SAVE.getQuery();
+
+
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO users (username, password_hash, enabled) VALUES (?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
-            );
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPasswordHash());
             ps.setBoolean(3, user.isEnabled());
@@ -54,7 +56,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
+        String sql = Query.FIND_BY_USERNAME.getQuery();
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(sql, userRowMapper, username)
@@ -66,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean existsByUsername(String username) {
-        String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        String sql = Query.EXISTS_BY_USERNAME.getQuery();
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, username);
         return count != null && count > 0;
     }

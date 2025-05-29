@@ -2,20 +2,29 @@ package de.yagub.deliverysystem.msuser.service;
 
 
 
-import de.yagub.deliverysystem.msuser.dto.mapper.UserMapper;
+import de.yagub.deliverysystem.msuser.mapper.UserMapper;
 import de.yagub.deliverysystem.msuser.dto.request.LoginRequest;
 import de.yagub.deliverysystem.msuser.dto.request.RegistrationRequest;
 import de.yagub.deliverysystem.msuser.dto.response.LoginResponse;
 import de.yagub.deliverysystem.msuser.dto.response.UserResponse;
-import de.yagub.deliverysystem.msuser.error.customexceptions.InvalidUserCredentialsException;
-import de.yagub.deliverysystem.msuser.error.customexceptions.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.error.InvalidUserCredentialsException;
+import de.yagub.deliverysystem.msuser.error.UsernameAlreadyExistsException;
+import de.yagub.deliverysystem.msuser.model.FilterTarget;
 import de.yagub.deliverysystem.msuser.model.User;
+import de.yagub.deliverysystem.msuser.model.enums.FilterId;
 import de.yagub.deliverysystem.msuser.repository.UserRepository;
+import de.yagub.deliverysystem.msuser.service.filter.Filter;
+import de.yagub.deliverysystem.msuser.service.filter.FilterChainBuilder;
+import de.yagub.deliverysystem.msuser.service.filter.impl.DuplicateUsernameFilter;
+import de.yagub.deliverysystem.msuser.service.filter.impl.PasswordStrengthFilter;
+import de.yagub.deliverysystem.msuser.service.filter.impl.UsernameValidationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +33,24 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final UserMapper userMapper;
+
+    private final FilterChainBuilder filterChainBuilder;
+
+    private final DuplicateUsernameFilter duplicateUsernameFilter;
+
+    private final PasswordStrengthFilter passwordStrengthFilter;
+
+    private final UsernameValidationFilter usernameValidationFilter;
+
     @Override
     public UserResponse register(RegistrationRequest request) {
-        if (userRepository.existsByUsername(request.username())) {
-            throw new UsernameAlreadyExistsException(request.username());
-        }
+
+        FilterTarget filterTarget = new FilterTarget(request);
+        List<FilterId> filterList =  filterChainBuilder.proceedUserServiceFilters(filterTarget);
+
+        System.out.println(filterList);
+
 
         String passwordHash = passwordEncoder.encode(request.password());
         var user = User.builder()
@@ -37,7 +59,7 @@ public class UserServiceImpl implements UserService {
                 .enabled(true)
                 .build();
 
-        return UserMapper.toUserResponse(userRepository.save(user));
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
@@ -50,7 +72,7 @@ public class UserServiceImpl implements UserService {
             throw new InvalidUserCredentialsException(("Invalid username and password"));
         }
 
-        return UserMapper.toLoginResponse(user);
+        return userMapper.toLoginResponse(user);
 
     }
 
