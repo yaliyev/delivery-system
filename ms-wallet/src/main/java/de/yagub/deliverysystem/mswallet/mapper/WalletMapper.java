@@ -1,6 +1,9 @@
 package de.yagub.deliverysystem.mswallet.mapper;
 
 import de.yagub.deliverysystem.mswallet.dto.request.CreateWalletRequest;
+import de.yagub.deliverysystem.mswallet.dto.request.PaymentRequest;
+import de.yagub.deliverysystem.mswallet.dto.request.TransferRequest;
+import de.yagub.deliverysystem.mswallet.dto.request.UpdateBalanceRequest;
 import de.yagub.deliverysystem.mswallet.dto.response.WalletResponse;
 import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
@@ -26,4 +29,11 @@ public interface WalletMapper {
     default String statusToString(WalletStatus status) {
         return status != null ? status.name() : null;
     }
+
+    UpdateBalanceRequest toUpdateBalance(PaymentRequest request);
+
+    @Mapping(target = "fromUserId",source = "walletId")
+    @Mapping(target = "toUserId",source = "receiverWalletId")
+    TransferRequest toTransferRequest(PaymentRequest request);
+
 }

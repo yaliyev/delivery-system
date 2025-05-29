@@ -1,6 +1,7 @@
 package de.yagub.deliverysystem.mswallet.controller;
 
 import de.yagub.deliverysystem.mswallet.dto.request.CreateWalletRequest;
+import de.yagub.deliverysystem.mswallet.dto.request.PaymentRequest;
 import de.yagub.deliverysystem.mswallet.dto.request.UpdateBalanceRequest;
 import de.yagub.deliverysystem.mswallet.dto.response.WalletResponse;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
@@ -30,17 +31,17 @@ public class WalletController {
         return walletService.getWalletByUserId(userId);
     }
 
-    @PostMapping("/deposit")
-    @ResponseStatus(HttpStatus.OK)
-    public WalletResponse depositFunds(@RequestBody UpdateBalanceRequest request) {
-        return walletService.depositFunds(request);
-    }
-
-    @PostMapping("/withdraw")
-    @ResponseStatus(HttpStatus.OK)
-    public WalletResponse withdrawFunds(@RequestBody UpdateBalanceRequest request) {
-        return walletService.withdrawFunds(request);
-    }
+//    @PostMapping("/deposit")
+//    @ResponseStatus(HttpStatus.OK)
+//    public WalletResponse depositFunds(@RequestBody UpdateBalanceRequest request) {
+//        return walletService.depositFunds(request);
+//    }
+//
+//    @PostMapping("/withdraw")
+//    @ResponseStatus(HttpStatus.OK)
+//    public WalletResponse withdrawFunds(@RequestBody UpdateBalanceRequest request) {
+//        return walletService.withdrawFunds(request);
+//    }
 
     @PatchMapping("/{walletId}/status")
     @ResponseStatus(HttpStatus.OK)
@@ -62,5 +63,11 @@ public class WalletController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteWallet(@PathVariable Long walletId) {
         walletService.deleteWallet(walletId);
+    }
+
+    @PostMapping("/determinePayment")
+    @ResponseStatus(HttpStatus.OK)
+    public WalletResponse determinePayment(@RequestBody PaymentRequest paymentRequest){
+        return walletService.determinePayment(paymentRequest);
     }
 }

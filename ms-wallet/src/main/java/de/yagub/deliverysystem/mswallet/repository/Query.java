@@ -31,7 +31,9 @@ public enum Query {
             SET BALANCE = BALANCE + ?, 
                 UPDATED_AT = SYSTIMESTAMP,
                 VERSION = VERSION + 1
-            WHERE ID = ?""");
+            WHERE ID = ?"""),
+    TRANSFER_FUNDS("UPDATE WALLETS SET BALANCE = BALANCE - ?, UPDATED_AT = ?, VERSION = VERSION + 1 WHERE ID = ? AND VERSION = ?"),
+    RECEIVED_FUNDS("UPDATE WALLETS SET BALANCE = BALANCE + ?, UPDATED_AT = ?, VERSION = VERSION + 1 WHERE ID = ? AND VERSION = ?");
 
     private final String query;
 

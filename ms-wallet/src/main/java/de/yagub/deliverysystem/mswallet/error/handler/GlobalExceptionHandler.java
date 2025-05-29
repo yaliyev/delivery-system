@@ -76,4 +76,15 @@ public class GlobalExceptionHandler {
         );
         return response;
     }
+
+    @ExceptionHandler(PaymentTypeIsInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handlePaymentTypeIsInvalidException(PaymentTypeIsInvalidException ex,WebRequest request){
+        ErrorResponse response = new ErrorResponse(
+                ErrorCode.PAYMENT_TYPE_IS_INVALID,
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return response;
+    }
 }

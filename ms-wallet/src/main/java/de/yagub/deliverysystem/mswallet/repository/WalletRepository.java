@@ -16,4 +16,6 @@ public interface WalletRepository {
     List<Wallet> findAll(int limit, int offset);
     Optional<Wallet> update(Wallet wallet);
 
+    boolean transferFunds(Long fromWalletId, Long toWalletId, BigDecimal amount,Long fromWalletVersion,Long toWalletVersion);
+
 }

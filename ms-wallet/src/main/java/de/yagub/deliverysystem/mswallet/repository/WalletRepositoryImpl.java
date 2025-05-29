@@ -1,6 +1,9 @@
 package de.yagub.deliverysystem.mswallet.repository;
 
+import de.yagub.deliverysystem.mswallet.error.InsufficientFundsException;
 import de.yagub.deliverysystem.mswallet.error.UserNotFoundException;
+import de.yagub.deliverysystem.mswallet.error.WalletNotFoundException;
+import de.yagub.deliverysystem.mswallet.error.WalletUpdateFailedException;
 import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
 import oracle.jdbc.OracleDatabaseException;
@@ -94,6 +97,38 @@ public class WalletRepositoryImpl implements WalletRepository {
             );
         }
         return Optional.empty();
+    }
+
+    @Override
+    @Transactional
+    public boolean transferFunds(Long fromWalletId, Long toWalletId, BigDecimal amount,Long fromWalletVersion,Long toWalletVersion) {
+
+        int updatedFrom = jdbcTemplate.update(
+                Query.TRANSFER_FUNDS.getQuery(),
+                amount,
+                LocalDateTime.now(),
+                fromWalletId,
+                fromWalletVersion
+        );
+
+        if (updatedFrom != 1) {
+            throw new WalletUpdateFailedException("Failed to update source wallet - possible concurrent modification");
+        }
+
+
+        int updatedTo = jdbcTemplate.update(
+                Query.RECEIVED_FUNDS.getQuery(),
+                amount,
+                LocalDateTime.now(),
+                toWalletId,
+                toWalletVersion
+        );
+
+        if (updatedTo != 1) {
+            throw new WalletUpdateFailedException("Failed to update destination wallet - possible concurrent modification");
+        }
+
+        return true;
     }
 
     @Override
