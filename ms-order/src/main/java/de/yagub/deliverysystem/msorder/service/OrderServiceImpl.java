@@ -6,14 +6,18 @@ import de.yagub.deliverysystem.msorder.error.OrderNotFoundException;
 import de.yagub.deliverysystem.msorder.mapper.OrderMapper;
 import de.yagub.deliverysystem.msorder.model.Order;
 import de.yagub.deliverysystem.msorder.model.OrderStatus;
+import de.yagub.deliverysystem.msorder.model.Promocode;
 import de.yagub.deliverysystem.msorder.repository.OrderRepository;
+import de.yagub.deliverysystem.msorder.repository.PromocodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-
+    private final List<PricingStrategy> pricingStrategies;
 
     @Override
     @Transactional
@@ -35,10 +39,13 @@ public class OrderServiceImpl implements OrderService {
         order.setCreatedAt(LocalDateTime.now());
         order.setUpdatedAt(LocalDateTime.now());
 
-        BigDecimal total = order.getItems().stream()
-                .map(i -> i.getPricePerUnit().multiply(BigDecimal.valueOf(i.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        order.setTotalAmount(total);
+        BigDecimal totalAmount = pricingStrategies.stream()
+                 .sorted(Comparator.comparing(PricingStrategy::filterId))
+                 .filter(strategy -> strategy.isSuitable(request))
+                 .findFirst()
+                 .map(strategy -> strategy.calculatePrice(request)).get();
+
+        order.setTotalAmount(totalAmount);
 
         // Persist order and items
         Order saved = orderRepository.save(order);
