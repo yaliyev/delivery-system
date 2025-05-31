@@ -3,10 +3,10 @@ package de.yagub.deliverysystem.msprocessmanager.error;
 import feign.Response;
 import feign.error.FeignExceptionConstructor;
 
-public class OrderFailedDependencyException extends OrderProviderException{
+public class OrderServiceUnavailableException extends OrderProviderException{
 
     @FeignExceptionConstructor
-    public OrderFailedDependencyException(Response response) {
+    public OrderServiceUnavailableException(Response response) {
         super(response);
     }
 }

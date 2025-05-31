@@ -8,9 +8,9 @@ import de.yagub.deliverysystem.msprocessmanager.client.user.model.RegistrationRe
 import de.yagub.deliverysystem.msprocessmanager.client.user.model.UserResponse;
 import de.yagub.deliverysystem.msprocessmanager.config.UserFeignConfig;
 import de.yagub.deliverysystem.msprocessmanager.error.UserBadRequestException;
-import de.yagub.deliverysystem.msprocessmanager.error.UserFailedDependencyException;
 import de.yagub.deliverysystem.msprocessmanager.error.UserNotFoundException;
 import de.yagub.deliverysystem.msprocessmanager.error.UserProviderException;
+import de.yagub.deliverysystem.msprocessmanager.error.UserServiceUnavailableException;
 import de.yagub.deliverysystem.msprocessmanager.error.response.BaseExceptionResponse;
 import feign.error.ErrorCodes;
 import feign.error.ErrorHandling;
@@ -31,7 +31,7 @@ public interface UserServiceClient {
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = UserBadRequestException.class),
                     @ErrorCodes(codes = {404}, generate = UserNotFoundException.class),
-                    @ErrorCodes(codes = {424}, generate = UserFailedDependencyException.class)
+                    @ErrorCodes(codes = {503}, generate = UserServiceUnavailableException.class)
             },
             defaultException = UserProviderException.class
     )
@@ -44,7 +44,7 @@ public interface UserServiceClient {
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = UserBadRequestException.class),
                     @ErrorCodes(codes = {404}, generate = UserNotFoundException.class),
-                    @ErrorCodes(codes = {424}, generate = UserFailedDependencyException.class)
+                    @ErrorCodes(codes = {503}, generate = UserServiceUnavailableException.class)
             },
             defaultException = UserProviderException.class
     )

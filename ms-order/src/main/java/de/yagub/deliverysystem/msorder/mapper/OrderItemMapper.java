@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OrderItemMapper {
 
-    @Mapping(target = "pricePerUnit", ignore = true)
     OrderItem toOrderItem(OrderItemRequest request);
 
     OrderItemResponse toOrderItemResponse(OrderItem orderItem);

@@ -27,7 +27,7 @@ public interface OrderServiceClient {
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = OrderBadRequestException.class),
                     @ErrorCodes(codes = {404}, generate = OrderNotFoundException.class),
-                    @ErrorCodes(codes = {424}, generate = OrderFailedDependencyException.class)
+                    @ErrorCodes(codes = {503}, generate = OrderServiceUnavailableException.class)
             },
             defaultException = OrderProviderException.class
     )
@@ -38,7 +38,7 @@ public interface OrderServiceClient {
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = OrderBadRequestException.class),
                     @ErrorCodes(codes = {404}, generate = OrderNotFoundException.class),
-                    @ErrorCodes(codes = {424}, generate = OrderFailedDependencyException.class)
+                    @ErrorCodes(codes = {503}, generate = OrderServiceUnavailableException.class)
             },
             defaultException = OrderProviderException.class
     )
@@ -49,7 +49,7 @@ public interface OrderServiceClient {
             codeSpecific = {
                     @ErrorCodes(codes = {400}, generate = OrderBadRequestException.class),
                     @ErrorCodes(codes = {404}, generate = OrderNotFoundException.class),
-                    @ErrorCodes(codes = {424}, generate = OrderFailedDependencyException.class)
+                    @ErrorCodes(codes = {503}, generate = OrderServiceUnavailableException.class)
             },
             defaultException = OrderProviderException.class
     )

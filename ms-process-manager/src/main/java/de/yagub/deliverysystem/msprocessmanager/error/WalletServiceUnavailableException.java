@@ -3,10 +3,10 @@ package de.yagub.deliverysystem.msprocessmanager.error;
 import feign.Response;
 import feign.error.FeignExceptionConstructor;
 
-public class UserFailedDependencyException extends UserProviderException{
+public class WalletServiceUnavailableException extends WalletProviderException{
 
     @FeignExceptionConstructor
-    public UserFailedDependencyException(Response response) {
+    public WalletServiceUnavailableException(Response response) {
         super(response);
     }
 }
