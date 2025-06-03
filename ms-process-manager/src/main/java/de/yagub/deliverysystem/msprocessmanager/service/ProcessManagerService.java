@@ -19,6 +19,7 @@ import de.yagub.deliverysystem.msprocessmanager.mapper.ProcessManagerMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProcessManagerService {
+
+    private final KafkaTemplate<String, ProcessManagerResponse> kafkaTemplate;
 
     private final UserServiceClient userServiceClient;
 
@@ -47,6 +50,10 @@ public class ProcessManagerService {
         OrderResponse orderResponse = orderServiceClient.createOrder(processManagerMapper.mergeIntoOrderRequest(request.orderRequest(), userResponse));
 
         ProcessManagerResponse response = processManagerMapper.mergeIntoProcessManagerResponse(userResponse,walletResponse,orderResponse);
+
+
+        String topicName = "process.completion.events";
+        kafkaTemplate.send(topicName, response);
 
         return response;
     }

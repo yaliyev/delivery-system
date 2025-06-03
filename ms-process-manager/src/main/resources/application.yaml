@@ -1,27 +1,11 @@
 server:
   port: 5051
 
-user:
-  service:
-    url: http://localhost:5050/api/users
-    connect-timeout: 4000ms
-    read-timeout: 8000ms
-
-order:
-  service:
-    url: http://localhost:5052/api/orders
-    connect-timeout: 4000ms
-    read-timeout: 8000ms
-
-wallet:
-  service:
-    url: http://localhost:5053/api/wallets
-    connect-timeout: 4000ms
-    read-timeout: 8000ms
-
 spring:
   application:
     name: ms-process-manager
+  profiles:
+    active: dev
 
 feign:
   client:

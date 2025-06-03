@@ -49,6 +49,8 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
     implementation 'io.github.openfeign:feign-annotation-error-decoder:13.6'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 }
 
