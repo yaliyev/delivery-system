@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OrderItemMapper {
 
+    @Mapping(target = "orderId", ignore = true)
     OrderItem toOrderItem(OrderItemRequest request);
 
     OrderItemResponse toOrderItemResponse(OrderItem orderItem);

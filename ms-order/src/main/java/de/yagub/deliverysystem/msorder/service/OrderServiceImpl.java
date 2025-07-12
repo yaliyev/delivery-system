@@ -32,6 +32,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
+
+        if (request == null) {
+            throw new OrderNotFoundException("Order request cannot be null");
+        }
+        if (request.items() == null || request.items().isEmpty()) {
+            throw new OrderNotFoundException("Order must contain at least one item");
+        }
+
         // Map request DTO to entity
         Order order = orderMapper.toOrder(request);
         // Set system-generated fields
@@ -43,7 +51,8 @@ public class OrderServiceImpl implements OrderService {
                  .sorted(Comparator.comparing(PricingStrategy::filterId))
                  .filter(strategy -> strategy.isSuitable(request))
                  .findFirst()
-                 .map(strategy -> strategy.calculatePrice(request)).get();
+                 .map(strategy -> strategy.calculatePrice(request))
+                 .orElseThrow(() -> new IllegalStateException("No suitable pricing strategy found for order"));
 
         order.setTotalAmount(totalAmount);
 

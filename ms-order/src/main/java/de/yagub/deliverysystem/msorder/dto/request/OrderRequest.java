@@ -2,6 +2,7 @@ package de.yagub.deliverysystem.msorder.dto.request;
 
 
 import de.yagub.deliverysystem.msorder.model.Promocode;
+import lombok.Builder;
 
 import java.util.List;
 
