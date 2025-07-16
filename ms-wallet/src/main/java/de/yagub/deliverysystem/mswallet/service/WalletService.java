@@ -30,7 +30,10 @@ public class WalletService {
     private final List<PaymentStrategy> paymentStrategies;
 
     public WalletResponse createWallet(CreateWalletRequest request) {
-        // Check if wallet already exists
+        if (request.currency() == null || request.currency().isBlank()) {
+            throw new InvalidPaymentRequestException("Currency is required");
+        }
+
         walletRepository.findByUserId(request.userId()).ifPresent(w -> {
             throw new WalletAlreadyExistsException("Wallet already exists for user ID: " + request.userId());
         });
@@ -46,16 +49,28 @@ public class WalletService {
     }
 
     public WalletResponse determinePayment(PaymentRequest paymentRequest){
+
+        if (paymentRequest.amount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidPaymentRequestException("Payment amount must be positive");
+        }
+
         PaymentType type;
         try{
              type = PaymentType.valueOf(paymentRequest.paymentType());
         }catch (IllegalArgumentException e){
             throw  new PaymentTypeIsInvalidException(paymentRequest.paymentType() + " type is invalid");
         }
-        Optional<WalletResponse> walletResponse = paymentStrategies.stream()
-                .filter(strategy -> strategy.getPaymentType().equals(type)).findFirst()
-                .map(strategy -> strategy.payment(paymentRequest));
-        return walletResponse.get();
+
+        if (type == PaymentType.TRANSFER && paymentRequest.receiverWalletId() == null) {
+            throw new InvalidPaymentRequestException("Receiver wallet ID is required for TRANSFER");
+        }
+
+        return paymentStrategies.stream()
+                .filter(strategy -> strategy.getPaymentType().equals(type))
+                .findFirst()
+                .map(strategy -> strategy.payment(paymentRequest))
+                .orElseThrow(() -> new PaymentStrategyNotFoundException(
+                        "No payment strategy found for type: " + type));
     }
 
 
@@ -90,6 +105,7 @@ public class WalletService {
     public void deleteWallet(Long walletId) {
         walletRepository.findById(walletId).ifPresent(wallet -> {
             wallet.setStatus(WalletStatus.INACTIVE);
+            wallet.setUpdatedAt(LocalDateTime.now());
             walletRepository.update(wallet);
         });
     }
