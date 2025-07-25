@@ -10,6 +10,8 @@ import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
 import de.yagub.deliverysystem.mswallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,17 +50,17 @@ public class WalletService {
         return walletMapper.toResponse(savedWallet);
     }
 
-    public WalletResponse determinePayment(PaymentRequest paymentRequest){
+    public WalletResponse determinePayment(PaymentRequest paymentRequest) {
 
         if (paymentRequest.amount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidPaymentRequestException("Payment amount must be positive");
         }
 
         PaymentType type;
-        try{
-             type = PaymentType.valueOf(paymentRequest.paymentType());
-        }catch (IllegalArgumentException e){
-            throw  new PaymentTypeIsInvalidException(paymentRequest.paymentType() + " type is invalid");
+        try {
+            type = PaymentType.valueOf(paymentRequest.paymentType());
+        } catch (IllegalArgumentException e) {
+            throw new PaymentTypeIsInvalidException(paymentRequest.paymentType() + " type is invalid");
         }
 
         if (type == PaymentType.TRANSFER && paymentRequest.receiverWalletId() == null) {
@@ -74,14 +76,14 @@ public class WalletService {
     }
 
 
-
-
+    @Cacheable(value = "wallets", key = "#userId")
     public WalletResponse getWalletByUserId(Long userId) {
         return walletRepository.findByUserId(userId)
                 .map(walletMapper::toResponse)
                 .orElseThrow(() -> new WalletNotFoundException("Wallet not found for user ID: " + userId));
     }
 
+    @CacheEvict(value = "wallets", key = "#result.userId", beforeInvocation = false)
     public WalletResponse updateWalletStatus(Long walletId, WalletStatus newStatus) {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new WalletNotFoundException("Wallet not found with ID: " + walletId));
@@ -102,12 +104,20 @@ public class WalletService {
     }
 
 
-    public void deleteWallet(Long walletId) {
-        walletRepository.findById(walletId).ifPresent(wallet -> {
-            wallet.setStatus(WalletStatus.INACTIVE);
-            wallet.setUpdatedAt(LocalDateTime.now());
-            walletRepository.update(wallet);
-        });
+    @CacheEvict(value = "wallets", key = "#result.userId", beforeInvocation = false)
+    public WalletResponse deleteWallet(Long walletId) {
+        Optional<Wallet> walletOptional = walletRepository.findById(walletId);
+
+        if(walletOptional.isEmpty()){
+          throw new WalletNotFoundException("Wallet not found with ID: " + walletId);
+        }
+
+        Wallet wallet = walletOptional.get();
+        wallet.setStatus(WalletStatus.INACTIVE);
+        wallet.setUpdatedAt(LocalDateTime.now());
+        walletRepository.update(wallet);
+
+        return walletMapper.toResponse(wallet);
     }
 
 }

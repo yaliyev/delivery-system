@@ -12,6 +12,9 @@ import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
 import de.yagub.deliverysystem.mswallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +29,10 @@ public class TransferService implements PaymentStrategy {
 
     private final WalletMapper walletMapper;
 
-    public WalletResponse transferFunds(TransferRequest request){
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    @Transactional
+    public WalletResponse transferFunds(TransferRequest request) {
 
         Optional<Wallet> fromWalletOpt = walletRepository.findById(request.fromUserId());
         Optional<Wallet> toWalletOpt = walletRepository.findById(request.toUserId());
@@ -55,6 +61,10 @@ public class TransferService implements PaymentStrategy {
 
         walletRepository.transferFunds(request.fromUserId(), request.toUserId(), request.amount(), fromWallet.getVersion(), toWallet.getVersion());
 
+        String cacheKey = "wallet:wallets::";
+        redisTemplate.delete(cacheKey+fromWallet.getUserId());
+        redisTemplate.delete(cacheKey+toWallet.getUserId());
+
         return walletMapper.toResponse(
                 walletRepository.findById(request.fromUserId())
                         .orElseThrow(() -> new WalletNotFoundException("Wallet not found after successful update"))
@@ -65,8 +75,8 @@ public class TransferService implements PaymentStrategy {
     @Override
     public WalletResponse payment(PaymentRequest paymentRequest) {
         System.out.println("Money is transferring to someone...");
-       WalletResponse response = transferFunds(walletMapper.toTransferRequest(paymentRequest));
-       return response;
+        WalletResponse response = transferFunds(walletMapper.toTransferRequest(paymentRequest));
+        return response;
     }
 
     @Override

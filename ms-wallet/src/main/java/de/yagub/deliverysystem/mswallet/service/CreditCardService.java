@@ -8,6 +8,7 @@ import de.yagub.deliverysystem.mswallet.model.PaymentType;
 import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,8 @@ public class CreditCardService implements PaymentStrategy {
 
     private final WalletMapper walletMapper;
 
+
+    @CacheEvict(value = "wallets", key = "#result.userId", beforeInvocation = false)
     public WalletResponse buy(UpdateBalanceRequest request){
         WalletResponse response = balanceService.withdrawFunds(request);
         System.out.println("Something bought...");

@@ -13,6 +13,7 @@ import de.yagub.deliverysystem.mswallet.model.Wallet;
 import de.yagub.deliverysystem.mswallet.model.WalletStatus;
 import de.yagub.deliverysystem.mswallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ public class BalanceService implements PaymentStrategy {
     private final WalletMapper walletMapper;
 
 
+    @CacheEvict(value = "wallets", key = "#result.userId", beforeInvocation = false)
     public WalletResponse depositFunds(UpdateBalanceRequest request) {
         return performBalanceOperation(request.walletId(), request.amount(), "DEPOSIT");
     }
@@ -72,6 +74,7 @@ public class BalanceService implements PaymentStrategy {
         }
     }
 
+    @CacheEvict(value = "wallets", key = "#result.userId", beforeInvocation = false)
     public WalletResponse withdrawFunds(UpdateBalanceRequest request) {
         return performBalanceOperation(request.walletId(), request.amount().negate(), "WITHDRAW");
     }

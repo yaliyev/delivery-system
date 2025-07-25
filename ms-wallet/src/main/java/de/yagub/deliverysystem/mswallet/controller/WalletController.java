@@ -60,9 +60,9 @@ public class WalletController {
     }
 
     @DeleteMapping("/{walletId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteWallet(@PathVariable Long walletId) {
-        walletService.deleteWallet(walletId);
+    @ResponseStatus(HttpStatus.OK)
+    public WalletResponse deleteWallet(@PathVariable Long walletId) {
+        return walletService.deleteWallet(walletId);
     }
 
     @PostMapping("/determinePayment")
