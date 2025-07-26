@@ -1,7 +1,8 @@
 spring:
   application:
-    name: ms-wallet
+    name: ms-report-consumer
   profiles:
     active: dev
 server:
-  port: 8080
+  port: 5053
+

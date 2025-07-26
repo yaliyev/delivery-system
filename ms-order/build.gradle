@@ -31,6 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation 'com.oracle.database.jdbc:ojdbc11:23.7.0.25.01'
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 
 	// testing dependencies
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
