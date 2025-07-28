@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-table
+      author: yaliyev
+      changes:
+        - createTable:
+            tableName: USERS
+            schemaName: DELIVERY_SYSTEM
+            columns:
+              - column:
+                  name: ID
+                  type: NUMBER
+                  defaultValueComputed: "DELIVERY_SYSTEM.USERS_SEQ.NEXTVAL"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: USERNAME
+                  type: VARCHAR2(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: PASSWORD_HASH
+                  type: VARCHAR2(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: ENABLED
+                  type: NUMBER(1)
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false

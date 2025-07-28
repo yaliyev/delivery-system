@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-promocodes-table
+      author: yaliyev
+      changes:
+        - createTable:
+            tableName: PROMOCODES
+            schemaName: DELIVERY_SYSTEM
+            remarks: Table for storing promotional codes
+            columns:
+              - column:
+                  name: PROMOCODE
+                  type: VARCHAR2(20)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: "Primary promotional code"
+
+              - column:
+                  name: IS_USED
+                  type: NUMBER(1)
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+                    checkConstraint: "IS_USED IN (0, 1)"
+                  remarks: "Flag indicating if promo code has been used (0/1)"
+
+              - column:
+                  name: AMOUNT
+                  type: NUMBER(19, 4)
+                  constraints:
+                    nullable: false
+                  remarks: "Discount amount or percentage"
+
+        - createIndex:
+            indexName: IDX_PROMOCODES_IS_USED
+            tableName: PROMOCODES
+            columns:
+              - column:
+                  name: IS_USED
+            remarks: "Improves queries filtering by usage status"

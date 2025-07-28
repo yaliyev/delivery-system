@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-wallets-sequence
+      author: yaliyev
+      changes:
+        - createSequence:
+            sequenceName: WALLETS_SEQ
+            schemaName: DELIVERY_SYSTEM
+            startValue: 1
+            incrementBy: 1
+            cacheSize: 20
+            remarks: Sequence for WALLETS table primary keys

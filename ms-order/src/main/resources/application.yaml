@@ -3,5 +3,4 @@ spring:
     name: ms-order
   profiles:
     active: dev
-server:
-  port: 8080
+

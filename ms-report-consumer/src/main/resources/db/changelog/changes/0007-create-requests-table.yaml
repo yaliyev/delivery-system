@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-requests-table
+      author: yaliyev
+      changes:
+        - createTable:
+            tableName: REQUESTS
+            schemaName: DELIVERY_SYSTEM
+            remarks: Table for storing system requests
+            columns:
+              - column:
+                  name: ID
+                  type: NUMBER
+                  defaultValueComputed: "DELIVERY_SYSTEM.REQUESTS_SEQ.NEXTVAL"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: "Auto-generated primary key"
+
+              - column:
+                  name: REQUEST_DATE
+                  type: TIMESTAMP(6)
+                  defaultValueComputed: "SYSTIMESTAMP"
+                  constraints:
+                    nullable: false
+                  remarks: "Timestamp when request was created"

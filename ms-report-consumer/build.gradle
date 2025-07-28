@@ -30,6 +30,10 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+	//Liquibase
+	implementation 'org.liquibase:liquibase-core'
 }
 
 tasks.named('test') {

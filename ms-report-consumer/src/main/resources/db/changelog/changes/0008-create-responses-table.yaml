@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-responses-table
+      author: yaliyev
+      changes:
+        - createTable:
+            tableName: RESPONSES
+            schemaName: DELIVERY_SYSTEM
+            remarks: Table for storing system responses
+            columns:
+              - column:
+                  name: ID
+                  type: NUMBER
+                  defaultValueComputed: "DELIVERY_SYSTEM.RESPONSES_SEQ.NEXTVAL"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: "Auto-generated primary key"
+
+              - column:
+                  name: REQUEST_ID
+                  type: NUMBER
+                  constraints:
+                    nullable: false
+                  remarks: "Reference to parent request"
+
+        - addForeignKeyConstraint:
+            baseTableName: RESPONSES
+            baseColumnNames: REQUEST_ID
+            constraintName: FK_RESPONSES_REQUEST
+            referencedTableName: REQUESTS
+            referencedColumnNames: ID
+            deferrable: false
+            initiallyDeferred: false
+            validate: true
+
+        - createIndex:
+            indexName: IDX_RESPONSES_REQUEST_ID
+            tableName: RESPONSES
+            columns:
+              - column:
+                  name: REQUEST_ID
+            remarks: "Improves join performance with REQUESTS table"

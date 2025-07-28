@@ -3,6 +3,5 @@ spring:
     name: ms-report-consumer
   profiles:
     active: dev
-server:
-  port: 5053
+
 

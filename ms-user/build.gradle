@@ -38,6 +38,9 @@ dependencies {
 
     // Oracle Database
     implementation 'com.oracle.database.jdbc:ojdbc11:23.7.0.25.01'
+
+    //Liquibase
+    implementation 'org.liquibase:liquibase-core'
 }
 configurations {
     developmentOnly

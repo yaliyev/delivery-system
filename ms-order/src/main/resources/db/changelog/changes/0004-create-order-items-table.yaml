@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-order-items-table
+      author: yaliyev
+      changes:
+        - createTable:
+            tableName: ORDER_ITEMS
+            schemaName: DELIVERY_SYSTEM
+            remarks: Table for storing individual items within orders
+            columns:
+              - column:
+                  name: ORDER_ID
+                  type: VARCHAR2(36)
+                  constraints:
+                    nullable: false
+                  remarks: "Reference to parent order"
+
+              - column:
+                  name: PRODUCT_ID
+                  type: VARCHAR2(36)
+                  constraints:
+                    nullable: false
+                  remarks: "Product identifier"
+
+              - column:
+                  name: QUANTITY
+                  type: NUMBER
+                  constraints:
+                    nullable: false
+                  remarks: "Item quantity"
+
+              - column:
+                  name: PRICE_PER_UNIT
+                  type: NUMBER(10, 2)
+                  constraints:
+                    nullable: false
+                  remarks: "Price per unit at time of order"
+
+        - addPrimaryKey:
+            tableName: ORDER_ITEMS
+            columnNames: ORDER_ID, PRODUCT_ID
+            constraintName: PK_ORDER_ITEMS
+
+        - addForeignKeyConstraint:
+            baseTableName: ORDER_ITEMS
+            baseColumnNames: ORDER_ID
+            constraintName: FK_ORDER_ITEMS_ORDER
+            referencedTableName: ORDERS
+            referencedColumnNames: ID
+            deferrable: false
+            initiallyDeferred: false
+            validate: true
+
+        - createIndex:
+            indexName: IDX_ORDER_ITEMS_PRODUCT
+            tableName: ORDER_ITEMS
+            columns:
+              - column:
+                  name: PRODUCT_ID

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sequences
+      author: yaliyev
+      changes:
+        - createSequence:
+            sequenceName: REQUESTS_SEQ
+            schemaName: DELIVERY_SYSTEM
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: RESPONSES_SEQ
+            schemaName: DELIVERY_SYSTEM
+            startValue: 1
+            incrementBy: 1

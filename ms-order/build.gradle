@@ -38,6 +38,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testImplementation 'org.mockito:mockito-core'
 	testImplementation 'org.mockito:mockito-junit-jupiter'
+
+	//Liquibase
+	implementation 'org.liquibase:liquibase-core'
 }
 configurations {
 	developmentOnly
